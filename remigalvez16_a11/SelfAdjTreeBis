@@ -1,0 +1,571 @@
+import edu.gwu.util.*;
+import edu.gwu.debug.*;
+import edu.gwu.algtest.*;
+import java.lang.*;
+import java.util.*;
+
+public class SelfAdjTree implements TreeSearchAlgorithm {
+
+	public TreeNode root = null;
+
+	public int size = 0;
+
+
+	public Object insert(Comparable key, Object value) {
+		TreeNode n = new TreeNode(key, value);
+
+		if (root == null) {
+			root = n;
+			size++;
+			return n;
+		}
+
+		TreeNode node = root;
+		boolean inserted = false;
+
+		while(!inserted) {
+			if ((n.key).compareTo(node.key) == 0) {
+				node.value = n.value;
+				return node;
+			} else if ((n.key).compareTo(node.key) < 0) {
+				if (hasLeft(node)) {
+					node = node.left;
+				} else {
+					node.left = n;
+					n.parent = node;
+					inserted = true;
+				}
+			} else {
+				if (hasRight(node)) {
+					node = node.right;
+				} else {
+					node.right = n;
+					n.parent = node;
+					inserted = true;
+				}
+			}
+		}
+		size++;
+		splayToRoot(n);
+		return n;
+	}
+
+	public ComparableKeyValuePair search(Comparable key) {
+		// Set active node to root
+		TreeNode node = root;
+
+		// Navigate tree until key is found, or doesn't exist
+		while (key.compareTo(node.key) != 0) {
+			// If key is less than active node key
+			if (key.compareTo(node.key) < 0) { 
+				if (!hasLeft(node))
+					return null;
+				// Set active node to its left child
+				node = node.left;
+			} else {
+				if (!hasRight(node))
+					return null;
+				// Set active enode to its right child
+				node = node.right;
+			}
+		}
+		splayToRoot(node);
+		return node;
+	}
+
+	public ComparableKeyValuePair minimum() {
+		// Set active node to root
+		TreeNode node = root;
+		// Iterate through tree until leftmost child is found
+		while(node.left != null) {
+			node = node.left;
+		}
+		return node;
+	}
+
+	public ComparableKeyValuePair maximum() {
+		// Set active node to root
+		TreeNode node = root;
+		// Iterate through tree until rightmost child is found
+		while(node.right != null) {
+			node = node.right;
+		}
+		return node;
+	}
+
+	public Object delete(Comparable key) {
+		// Set active node to the node to be deleted
+		TreeNode node = (TreeNode) search(key);
+
+		TreeNode parentNode = node.parent != null ? node.parent : new TreeNode();
+
+		TreeNode n = null;
+
+		// If the node has a left child, find the rightmost child
+		// of that left child
+		if (hasLeft(node)) {
+			n = node.left;
+			while(hasRight(n))
+				n = n.right;
+			// If the left child does not have any right children
+			if (isLeftChild(n)) {
+				// Replace the node to be deleted by its left child
+				parentNode.left = n;
+				n.parent = parentNode;
+				n.right = node.right;
+			} else {
+				// If the rightmost child has a left child
+				if (hasLeft(n)) {
+					n.parent.right = n.left;
+					n.left.parent = n.parent;
+				} else {
+					n.parent.right = null;
+				}
+				n.parent = node.parent;
+				n.left = node.left;
+				n.right = node.right;
+				node.left.parent = n;
+
+				if (hasRight(node)) node.right.parent = n;
+				if (isLeftChild(node)) parentNode.left = n;
+				else parentNode.right = n;
+			}
+		} else if (hasRight(node)) {
+			n = node.right;
+			while(hasLeft(n))
+				n = n.left;
+			// If the left child does not have any right children
+			if (isRightChild(n)) {
+				// Replace the node to be deleted by its left child
+				parentNode.right = n;
+				n.parent = parentNode;
+				n.left = node.left;
+			} else {
+				// If the rightmost child has a left child
+				if (hasRight(n)) {
+					n.parent.left = n.right;
+					n.right.parent = n.parent;
+				} else {
+					n.parent.left = null;
+				}
+				n.parent = node.parent;
+				n.left = node.left;
+				n.right = node.right;
+
+				node.right.parent = n;
+				
+				if (hasLeft(node)) node.left.parent = n;
+				if (isLeftChild(node)) parentNode.left = n;
+				else parentNode.right = n;
+			}
+		// If node is leaf
+		} else {
+			if (isLeftChild(node))
+				node.parent.left = null;
+			else 
+				node.parent.right = null;
+			return node;
+		}
+
+		if (node.parent == null) {
+			root = n;
+			if (hasLeft(parentNode)) {
+				parentNode.left.parent = null;
+				parentNode.left = null;
+			} 
+			if (hasRight(parentNode)) {
+				parentNode.right.parent = null;
+				parentNode.right = null;
+			}
+		}
+
+		size--;
+		return n.value;
+
+	}
+
+	public Comparable successor(Comparable key) { 
+		TreeNode node = (TreeNode) search(key);
+		TreeNode max = (TreeNode) maximum();
+
+		if (key.compareTo(max.key) == 0)
+			return null;
+
+		if (hasRight(node)) {
+			node = node.right;
+			while(hasLeft(node)) 
+				node = node.left;
+		} else if (isLeftChild(node)) {
+			node = node.parent;
+		} else {
+			while(!isLeftChild(node)) 
+				node = node.parent;
+			node = node.parent;
+		}
+
+		return node.key;
+	}
+
+	public Comparable predecessor(Comparable key) { 
+		TreeNode node = (TreeNode) search(key);
+		TreeNode min = (TreeNode) minimum();
+
+		if (key.compareTo(min.key) == 0)
+			return null;
+
+		if (hasLeft(node)) {
+			node = node.left;
+			while(hasRight(node)) 
+				node = node.right;
+		} else if (isRightChild(node)) {
+			node = node.parent;
+		} else {
+			while(!isRightChild(node)) 
+				node = node.parent;
+			node = node.parent;
+		}
+
+		return node.key;	
+	}
+
+	public TreeNode getRoot() {
+		return root;
+	}	
+
+	public String getName() { return "remigalvez16 - BinarySearchTree"; }
+
+	public void setPropertyExtractor(int algID, PropertyExtractor prop) {}
+
+	public void initialize(int maxSize) {
+		size = 0;
+		root = null;
+	}
+
+	public int getCurrentSize() { 
+		return size; 
+	}
+
+	public Enumeration getKeys() { 
+		class TreeKeys implements Enumeration {
+
+			TreeNode node = (TreeNode) minimum();
+			int index = 0;
+
+			public boolean hasMoreElements() {
+				TreeNode max = (TreeNode) maximum();
+				if (node == max)
+					return false;
+				return true;
+			}
+
+			public Object nextElement() {
+				if (index == 0) {
+					index++;
+					return node.value;
+				}
+				Comparable key = successor(node.key);
+				node = (TreeNode) search(key);
+				index++;
+				return node.key;
+			}
+
+			public Enumeration getEnumeration() { 
+				node = (TreeNode) minimum();
+				return this; 
+			}
+
+		}
+
+		return new TreeKeys();
+	}
+
+	public Enumeration getValues() {
+		class TreeValues implements Enumeration {
+
+			TreeNode node = (TreeNode) minimum();
+			int index = 0;
+
+			public boolean hasMoreElements() {
+				TreeNode max = (TreeNode) maximum();
+				if (node == max)
+					return false;
+				return true;
+			}
+
+			public Object nextElement() {
+				if (index == 0) {
+					index++;
+					return node.value;
+				}
+				Comparable key = successor(node.key);
+				node = (TreeNode) search(key);
+				index++;
+				return node.value;
+			}
+
+			public Enumeration getEnumeration() { 
+				node = (TreeNode) minimum();
+				return this; 
+			}
+
+		}
+
+		return new TreeValues();
+	}
+
+	public void initialize() {
+		root = null;
+		size = 0;
+		System.gc();
+	}
+
+
+	// =======================
+	// ==  My added methods ==
+	// =======================
+
+	public void splayToRoot(TreeNode node) {
+		int status = 0;
+
+		while (node != root) {
+			if (node.parent == root) status = 1;
+			else if (isLeftChild(node) && isLeftChild(node.parent)) status = 2;
+			else if (isRightChild(node) && isRightChild(node.parent)) status = 3;
+			else if (isRightChild(node) && isLeftChild(node.parent)) status = 4;
+			else if (isLeftChild(node) && isRightChild(node.parent)) status = 5;
+
+			switch (status) {
+				case 1:
+					if (isLeftChild(node)) {
+						rotateRight(node);
+					} else {
+						rotateLeft(node);
+					}
+					break;
+				case 2:
+					rotateRight(node.parent);
+					rotateRight(node);
+					break;
+				case 3: 
+					rotateLeft(node.parent);
+					rotateLeft(node);
+					break;
+				case 4:
+					rotateLeft(node);
+					rotateRight(node);
+					break;
+				case 5:
+					rotateRight(node);
+					rotateLeft(node);
+					break;
+				default:
+					// Do nothing
+					break;
+			}
+		}
+		return;
+	}
+
+
+	public void rotateRight(TreeNode node) {
+		TreeNode temp = null;
+		TreeNode gp = null;
+		TreeNode parentNode = node.parent;
+
+		if (hasRight(node)) {  
+			parentNode.left = node.right;
+			node.right.parent = parentNode;
+		} else {
+			parentNode.left = null;
+		}
+
+		if (parentNode.parent != null) {
+			gp = parentNode.parent;
+			node.parent = parentNode.parent;
+			if (isLeftChild(parentNode))
+				gp.left = node;
+			else 
+				gp.right = node;
+		} else {
+			root = node;
+			node.parent = null;
+		}
+
+		node.right = parentNode;
+		parentNode.parent = node;
+
+		return;
+	}
+
+
+	public void rotateLeft(TreeNode node) {
+		TreeNode temp = null;
+		TreeNode gp = null;
+		TreeNode parentNode = node.parent;
+
+		if (hasLeft(node)) {  
+			parentNode.right = node.left;
+			node.left.parent = parentNode;
+		} else {
+			parentNode.right = null;
+		}
+
+		if (parentNode.parent != null) {
+			gp = parentNode.parent;
+			node.parent = parentNode.parent;
+			if (isLeftChild(parentNode))
+				gp.left = node;
+			else 
+				gp.right = node;
+		} else {
+			root = node;
+			node.parent = null;
+		}
+
+		node.left = parentNode;
+		parentNode.parent = node;
+
+		return;
+	}
+
+
+	public boolean isLeaf(TreeNode node) {
+		if (node.left == null && node.right == null)
+			return true;
+		return false;
+	}
+
+	public boolean isLeftChild(TreeNode node) {
+		if (node.parent == null)
+			return false;
+		else if (node.parent.left == node) 
+			return true;
+		return false;
+	}
+
+	public boolean isRightChild(TreeNode node) {
+		if (node.parent == null)
+			return false;
+		else if (node.parent.right == node) 
+			return true;
+		return false;
+	}
+
+	public boolean hasLeft(TreeNode node) {
+		if (node.left != null)
+			return true;
+		return false;
+	}
+	
+	public boolean hasRight(TreeNode node) {
+		if (node.right != null)
+			return true;
+		return false;
+	}
+
+	public void levelPrint() {
+		Queue q = new LinkedList();
+		TreeNode c = null;
+
+		q.add(this.root);
+		q.add(null);
+
+		while(!q.isEmpty()) {
+			c = (TreeNode) q.poll();
+			if (q.isEmpty()) break;
+
+			if (c == null) {
+				q.add(null);
+				System.out.println();
+			} else {
+				if (hasLeft(c)) 
+					q.add(c.left);
+	 			if (hasRight(c))
+					q.add(c.right);
+				System.out.print(c.key + " ");
+			}
+		}
+		System.out.println();
+	}
+
+	public void pLevelPrint() {
+		Queue q = new LinkedList();
+		TreeNode c = null;
+
+		q.add(this.root);
+		q.add(null);
+
+		while(!q.isEmpty()) {
+			c = (TreeNode) q.poll();
+			if (q.isEmpty()) break;
+
+			if (c == null) {
+				q.add(null);
+				System.out.println();
+			} else {
+				if (hasLeft(c)) 
+					q.add(c.left);
+	 			if (hasRight(c))
+					q.add(c.right);
+				System.out.print(c.key + " (");
+				if (c.parent != null) 
+					System.out.print("p:" + c.parent.key + ",");
+				if (c.left != null) 
+					System.out.print("l:" + c.left.key + ",");
+				if (c.right != null)
+					System.out.print("r:" + c.right.key);
+				System.out.print(")\t");
+			}
+		}
+		System.out.println();
+	}
+
+
+	public static void main(String[] args) {
+
+		BinarySearchTree t = new BinarySearchTree();
+
+		t.insert(5, 6);
+		t.insert(9, 10);
+		t.insert(2, 3);
+		t.insert(6, 7);
+		t.insert(12, 13);
+		t.insert(3, 4);
+		t.insert(7, 8);
+		t.insert(1, 2);
+		t.insert(18, 19);
+		t.insert(23, 24);
+		t.insert(19,20);
+		t.insert(13, 14);
+		t.insert(4, 5);
+		t.insert(0, 1);
+		t.insert(17, 18);
+		t.insert(16, 17);
+
+		// t.delete(5);
+		// t.delete(3);
+		// t.delete(9);
+		// System.out.println("\n");
+		// t.levelPrint();
+
+
+		// System.out.println("\n");
+		// Enumeration e = t.getValues();
+		// while (e.hasMoreElements()) {
+		// 	System.out.println(e.nextElement());
+		// }
+
+
+		// System.out.println("\n");
+		// TreeNode min = (TreeNode) t.minimum();
+		// TreeNode n = (TreeNode) t.maximum();
+		// Comparable key = n.key;
+
+		// while (n != min) {
+		// 	key = t.predecessor(key);
+		// 	n = (TreeNode) t.search(key);
+		// 	System.out.println(n.key);
+		// }
+	}
+
+}

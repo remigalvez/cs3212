@@ -1,0 +1,39 @@
+ => Current directory=/Users/Remi/Documents/Fall 2015/Algorithms/min
+ => Full pathname=/Users/Remi/Documents/Fall 2015/Algorithms/min/alg.props
+ => Properties file contains 26 properties
+problemType=min
+problemValueType=min
+runsPerTest=1
+A0=1.0
+specialTest=false
+printToScreen=true
+alg0=Min
+numTests=5
+numProblemParameters=1
+maxExecTimeSeconds=3
+quiescentTime=0
+dictionary=/usr/dict/words
+limitExecTime=false
+displayTime=true
+numAlgorithms=1
+debug=On
+printSummary=true
+display=false
+testCorrectness=true
+scale0=F0
+testPerformance=true
+param0_testSize4=9000
+param0_testSize3=7000
+param0_testSize2=5000
+param0_testSize1=3000
+param0_testSize0=1000
+Loading algorithm# 0 name=/Users/Remi/Documents/Fall 2015/Algorithms/min/Min ... 
+ ... completed.
+ALGORITHM: Min
+MinTester.testCorrectness(): algorithm=Min
+ => passed: test1: 1-element
+ => passed: test2: 2-elements
+ => passed: test3: 10-elements already sorted
+ => passed: test4: 10-elements reverse sorted
+ => passed: test5: 10 random elements
+ => passed: test6: 1000 random elements

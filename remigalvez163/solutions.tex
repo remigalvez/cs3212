@@ -1,0 +1,21 @@
+\documentclass{article}
+\usepackage{mathtools}
+
+
+\begin{document}
+
+\noindent$O(f) = \Sigma_{i=0}^{n}$ $(i + log(i))$\\
+\\
+$= \Sigma_0^n (i) + \Sigma_0^n \left(log(i)\right)$\\
+\\
+$=\Sigma_0^n (i) + log(\Pi_0^n(i))$\\
+\\
+$\frac{n(n+1)}{2} + log(n!)$\\
+\\
+$= \frac{1}{2}\times n^2 + \frac{1}{2} \times n + log(n!)$\\
+\\
+\\
+The dominant term in this formula is $n^2$, hence\\
+\\
+$f = O(n^2)$
+\end{document}

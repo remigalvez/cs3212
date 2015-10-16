@@ -1,0 +1,157 @@
+(B)
+
+Algorithm: ternarySearch( query, arr, l, r )
+	// Final step of recursion
+	if (l >= r) {
+		if (arr[l] == query) 
+			return l;
+		else if (arr[r] == query)
+			return r;
+		else
+			return null;
+	}
+
+	// Split current array into 3
+	mid1 = (1/3) * (r - l) + l
+	mid2 = (2/3) * (r - l) + l
+
+	if (query < arr[mid1]) {
+		idx = ternarySearch( query, arr, l, mid1-1 )
+	} else if (query >= arr[mid2]) {
+		idx = ternarySearch( query, arr, mid2, r )
+	} else {
+		idx = ternarySearch( query, arr, mid1, mid2-1 )
+	}
+
+	return idx;
+
+
+
+	// =================================================
+	// =================================================
+	// =================================================
+	// =================================================
+
+	Running time of this algorithm is log_3(n). This only slightly
+	differs from binary search that is log_2(n). The difference comes
+	from the fact that the array is divided into 3 for every recursive 
+	step rather than 2. 
+
+	// =================================================
+	// =================================================
+	// =================================================
+	// =================================================
+
+(D)
+
+Algorithm: removeDuplicates( arr )
+	idx = 1
+	for (i = 1; i < n; i++) {
+		if (arr[i] == arr[i-1]) {
+			while (arr[i] == arr[i-1] && i < n) {
+				i = i+1
+			}
+			arr[idx] = arr[i]
+		} else {
+			arr[idx] = arr[i]
+		}
+		idx = idx+1
+	}
+
+	for (i = idx; i < n; i++) {
+		arr[i] = 0
+	}
+
+	return idx
+
+	// =================================================
+	// =================================================
+	// =================================================
+	// =================================================
+
+	If the array is not sorted, it is possible to replace all duplicates
+	by zeros in O(n) time, however it is not possible to return the same 
+	results as the previous algorithm, that is a sorted array, up to a 
+	certain idx, from where the array is filled with zeros.
+
+	// =================================================
+	// =================================================
+	// =================================================
+	// =================================================
+
+(E) 
+
+i. n + n + 1 = O(n)
+ii. What if buyDay > sellDay?
+iii.
+
+Algorithm: singleTransaction( prices )
+	
+	List min, max;
+	List maxIdx, minIdx;
+	List maxDiff;
+	int activeIndex;
+
+
+	// Iterate through dataset
+	for (i = 0; i < n; i++) {
+		// If a new minimum is found, create a new tuple
+		if (i == 0 || a[i] < min.get(min.size()-1)) {
+
+			minValues.add(a[i]);
+			minIdx.add(i);
+			maxValues.add(a[i]);
+			maxIdx.add(i);
+
+		// If a greater maximum is found than the most recent one, 
+		// update all previous maximums that are inferior to the new
+		} else if (a[i] > max.get(max.size()-1)) {
+
+			for (k = max.size()-1; k >= 0; k--)
+
+				if max.get(k) > a[i] 
+					break;
+				max.get(k) = a[i];
+				maxIdx.get(k) = i;
+
+			}
+		}
+
+	}
+
+	int maxDiff = 0;
+
+	// Compute differences for each tuple, and keep track of max
+	// difference index
+	for (i = 0; i < max.size(); i++) {
+		diffs[i] = max.get(i) - min.get(i);
+		if (diffs[i] > maxDiff) 
+			maxDiff = i;
+	}
+
+	// Return buy day, sell day, and profit
+	return (minIdx.get(i), maxIdx.get(i), diffs[i]);
+
+	// =================================================
+	// =================================================
+	// =================================================
+	// =================================================
+
+	This algorithm works	
+	Reasoning: We need to go through the array one, and continuously compute maximum
+	differences, taking into account the order in which the elements came, 
+	without reiterating through the dataset.
+	So I thought, lets store the relevant information!
+	That is why I store minimum and maximum values, and in an Arraylist to keep 
+	order as a factor.
+
+
+
+
+
+
+
+
+
+
+

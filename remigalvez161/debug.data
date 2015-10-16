@@ -1,0 +1,3 @@
+ => Current directory=/Users/Remi/Documents/Fall 2015/Algorithms/cs3212/remigalvez161
+ => Full pathname=/Users/Remi/Documents/Fall 2015/Algorithms/cs3212/remigalvez161/merge.props
+:constr: Could not load from file/Users/Remi/Documents/Fall 2015/Algorithms/cs3212/remigalvez161/merge.props : IOEx=java.io.FileNotFoundException: /Users/Remi/Documents/Fall 2015/Algorithms/cs3212/remigalvez161/merge.props (No such file or directory)

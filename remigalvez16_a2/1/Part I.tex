@@ -1,0 +1,204 @@
+\documentclass{article}
+\usepackage{mathtools}
+\usepackage{amsmath,amssymb}
+
+\begin{document}
+
+	\begin{flushright}
+		Remi Galvez \\
+		CSCI 3212 - Assignment II \\
+		Monday, October 12, 2015 \\
+	\end{flushright}
+	
+	\noindent \textbf{Problem 1}\\
+	\\
+	\textbf{(a)} Let t denote the number of iterations that will take place in the while-loop.\\
+	\\
+	The loop will run as long as $s < n$, that is:
+	$$s = \Sigma_{i=1}^t i = \frac{t(t+1)}{2} < n$$
+	\\
+	Because we are using the order notation, $t(t+1) \sim t^2$.\\
+	\\
+	Therefore, \\
+	\begin{align*}
+		\frac{t^2}{2} < n & \quad \Longleftrightarrow \quad t^2 < 2n\\
+		& \quad \Longleftrightarrow \quad t < \pm \sqrt{2n}\\
+		& \quad \therefore \quad f = O(\sqrt{n})\\
+	\end{align*}
+	\\
+	The algorithm will take $O(\sqrt{n})$ time.\\
+	\\
+	\\
+	\textbf{(b)}
+	\begin{align*}
+		& O\left(n \cdot \left(n^2 + \left(log\left(n\right) \cdot \left(3n + \frac{3n^2}{log\left(n\right)}\right)\right)\right)\right) \\
+		& \quad = \quad O\left(n \cdot \left( n^2 + 3n \cdot log\left(n\right) + 3n^2 \right) \right) \\
+		& \quad= \quad O\left(n^3 + 3n^2 \cdot log\left(n\right) + 3n^3 \right)\\
+		& \quad = \quad O\left(n^3\right)
+	\end{align*}
+	\\
+	\\
+	\textbf{(c)} To maximize the number of interior nodes in a trie, we must minimize the number of leaves. For any trie with at least 2 nodes, the tree will have at least two leaves, and therefore at most $(n-2)$ interior nodes, which is on the order o $n$.\\
+	\\
+	\\
+	\textbf{(d)} Flesh out the pseudocode with details (base cases, and the recursive calls). Then, analyze the algorithm's execution time: what is the worst-case execution time in terms of $m$ and $n$? \\
+	\\
+	\textbf{Algorithm}: textSearch $(text, pattern)$ \\
+	\textbf{Input}: two char arrays text and pattern of lengths $n$ and $m$\\
+	\indent \textbf{for} $i=0$ to $i=n-1$\\
+	\indent \indent \textbf{if} recursiveMatch $(i, 0, m-1)$\\
+	\indent \indent \indent \textbf{return} true\\
+	\indent \indent \textbf{endif}\\
+	\indent \textbf{endfor}\\
+	\indent \textbf{return} false\\
+	\\
+	\textbf{Algorithm}: recursiveMatch $(i, p, q)$\\
+	\textbf{Input}: See if there's a match at position $i$ in text with the chars in the pattern between positions $p$ and $q$ \\
+	\indent // Base cases\\
+	\indent \textbf{if} $p == q$ \\
+	\indent \indent \textbf{if} $text[p] == text[q]$ \\
+	\indent \indent \indent \textbf{return} true \\
+	\indent \indent \textbf{else} \\
+	\indent \indent \indent \textbf{return} false \\
+	\indent \indent \textbf{endif} \\
+	\indent \textbf {endif}\\
+	\\
+	\indent // Find the middle index. \\
+	\indent $m = (p+q)/2$ \\
+	\indent // Call recursive functions. \\
+	\indent \textbf{if} recursiveMatch $(i, p, m)$ is false \\
+	\indent \indent \textbf{return} false \\
+	\indent \textbf{else if} \indent recusiveMatch $(i+1, m+1, q)$ is false \\ 
+	\indent \indent \textbf{return} false \\
+	\indent \textbf{endif} \\
+	\indent \textbf{return} true \\
+	\\
+	The recursive call will take $log(m)$ time, as the pattern is split into two equal parts continuously until we are left with single characters. This method, in turn, will be called $n$ times. Hence,\\
+	\\
+	The best case execution for this algorithm is $\boxed{O(log(m))}$ \\
+	The worst case execution time for this algorithm is $\boxed{O(n \cdot log(m))}$ \\
+	\\
+	\\
+	\textbf{(e)} The algorithms hinted at in the article are different from the ones we have studied in class as they are machine learning algorithms, which have error rates, and often require human parameterization. This means that these algorithms will misclassify data points and will make mistakes. Furthermore, the data used is subject to human bias, as the parameterization of the algorithm (how attributes are weighted, setting up the base parameter, how many iterations to run the algorithm, etc.). There are infinite ways classify two human beings, while there is only one way for an array to be sorted.\\
+	\\
+	\\
+	\textbf{(f)} The `K' in the KMP text search algorithm stands for Knuth, obviously referring to Donald Ervin Knuth, one of the creators of the KMP algorithm. Donald Ervin Knuth is a very influential mathematician and computer scientist, and has contributed major progress to both of these fields. His biggest work is the 7 volume work, \underline{The Art of Computer Programming}. He was initially asked to write a book about compilers, however he felt that the foundations needed to be written about before he could write the initially assigned book, and that these writings could be split up into 6 volumes. 
+	
+	Dr. Knuth also contributed a great deal to algorithm analysis; he has been called the ``father'' of the field. Dr. Knuth was the first to popularize the Big O notation for algorithm analysis.
+	
+	The two priorly listed contributions were major contributions from a theoretical standpoint, but Knuth also created and implemented the \TeX computer typesetting system (on which this file was created). This tool is very widely used around the world by a variety of people and professions, like researchers and students.\\
+	\\
+	\\
+	\pagebreak \\
+	\textbf{Problem 3} \\
+	\\
+	\textbf{Algorithm}: makeFilterTree $(rectSet)$\\
+	\textbf{Input}: Set of rectangles containing $n$ rectangles\\
+	\\
+	\indent $root$ = createNode(0,100) \\
+	\indent \textbf{for} $r$ in $rectSet$ \\
+	\indent \indent makeFilterTreeRecursive $(r, root)$ \\
+	\indent \textbf{endfor} \\
+	\indent \textbf{return} root \\ 
+	\\
+	\\
+	\textbf{Algorithm}: makeFilterTreeRecursive $(r, quadrantNode)$ \\ 
+	\textbf{Input}: Single rectangle to be placed in tree and current iteration node. \\
+	\\ 
+	\indent // Compute appropriate subquadrant as an int to place node \\ 
+	\indent $quadrant$ = computeQuadrant $(r, quadrantNode)$ \\ 
+	\\
+	\indent // If rectangle intersects with several quadrants \\
+	\indent \textbf{if} $quadrant == -1$ \\
+	\indent \indent // Add rectangle to parent input node \\ 
+	\indent \indent add $r$ to $quadrantNode$ \\
+	\indent \indent \textbf{return} \\
+	\indent \textbf{endif} \\
+	\\
+	\indent // If smaller subquadrant doesn't exist \\ 
+	\indent \textbf{if} $quadrantNode[quadrant]$ is $null$ \\
+	\indent \indent // Create subquadrant \\
+	\indent \indent Add new node to $quadrantNode.quadrants[quadrant]$ \\
+	\indent \textbf{endif} \\ 
+	\\
+	\indent // Call recursive function with new quadrant \\
+	\indent makeFilterTreeRecursive $(r, quadrantNode.quadrants[quadrant])$ \\ 
+	\\ 
+	\\
+	\textbf{Algorithm}: computeQuadrant $(r, quadrantNode)$ \\
+	\textbf{Input}: Single rectangle and parent node \\
+	\indent // Determine which half (horizontally) holds the top left corner's $x$-coordinate \\
+	\indent \textbf{if} $(r.topLeft.x < quadrantNode.midX)$ \\
+	\indent \indent $x = 0$ \\
+	\indent \textbf{else} \\
+	\indent \indent $x = 1$ \\ 
+	\indent \textbf{endif} \\ 
+	\\
+	\indent // Determine which half (vertically) holds the top left corner's $y$-coordinate \\
+	\indent \textbf{if} $(r.topLeft.y < quadrantNode.midY)$ \\
+	\indent \indent $y = 0$ \\
+	\indent \textbf{else} \\
+	\indent \indent $y = 1$ \\
+	\indent \textbf{endif} \\
+	\\
+	\indent // Compute subquadrant for bottom right corner \\
+	\indent \textbf{if} $(x == 0 \quad  \&\&  \quad y == 0)$ $topLeftQuad = 2$ \\
+	\indent \textbf{else if} $(x == 0  \quad \&\&  \quad y == 1)$ $topLeftQuad = 1$ \\
+	\indent \textbf{else if} $(x == 1 \quad  \&\&  \quad y == 0)$ $topLeftQuad = 3$ \\
+	\indent \textbf{else} topLeftQuad = 0 \\
+	\indent \textbf{endif} \\
+	\\
+	\indent // Determine which half (horizontally) holds the bottom right corner's $x$-coordinate \\
+	\indent \textbf{if} $(r.bottomRight.x < quadrantNode.midX)$ \\
+	\indent \indent $x = 0$ \\
+	\indent \textbf{else} \\
+	\indent \indent $x = 1$ \\ 
+	\indent \textbf{endif} \\ 
+	\\
+	\indent // Determine which half (vertically) holds the bottom right corner's $y$-coordinate \\
+	\indent \textbf{if} $(r.bottomRight.y < quadrantNode.midY)$ \\
+	\indent \indent $y = 0$ \\
+	\indent \textbf{else} \\
+	\indent \indent $y = 1$ \\
+	\indent \textbf{endif} \\
+	\\
+	\indent // Compute subquadrant for bottom right corner \\
+	\indent \textbf{if} $(x == 0 \quad \&\& \quad  y == 0)$ $bottomRightQuad = 2$ \\
+	\indent \textbf{else if} $(x == 0  \quad \&\&  \quad y == 1)$ $bottomRightQuad = 1$ \\
+	\indent \textbf{else if} $(x == 1  \quad \&\&  \quad y == 0)$ $bottomRightQuad = 3$ \\
+	\indent \textbf{else} bottomRightQuad = 0 \\
+	\indent \textbf{endif} \\
+	\\
+	\indent // If both corners are in the same subquadrant, return taht subquadrant's index \\
+	\indent \textbf{if} $(topLeftQuad == bottomRightQuad)$ \\
+	\indent \indent \textbf{return} $topLeftQuad$ \\
+	\indent \textbf{endif} \\
+	\\
+	\indent \textbf{return} -1
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,83 @@
+ => Current directory=/Users/Remi/Documents/Fall 2015/Algorithms/cs3212/remigalvez16_a1
+ => Full pathname=/Users/Remi/Documents/Fall 2015/Algorithms/cs3212/remigalvez16_a1/a1.props
+ => Properties file contains 58 properties
+scale7=F0
+scale6=F0
+problemValueType=min
+scale5=F0
+scale4=F0
+specialTest=false
+scale3=F0
+scale2=F0
+scale1=F0
+scale0=F0
+runsPerTest=1
+displayTime=true
+param1_testSize4=9000
+alg1=SelfAdjTree
+param1_testSize3=7000
+testPerformance=false
+alg0=BinarySearchTree
+param1_testSize2=5000
+A7=1.0
+param1_testSize1=3000
+A6=1.0
+param1_testSize0=1000
+A5=1.0
+A4=1.0
+A3=1.0
+numTests=5
+A2=1.0
+A1=1.0
+searchTester.deletePercent=0
+A0=1.0
+searchTester.testSuccPred=true
+searchTester.avgStringSize=20
+searchTester.trueSearchPercent=80
+maxExecTimeSeconds=3
+searchTester.testLarge=true
+numAlgorithms=2
+searchTester.equalitySearch=false
+debug=On
+display=true
+limitExecTime=false
+searchTester.uniqueData=true
+printToScreen=true
+searchTester.testEnum=true
+printSummary=true
+param0_testSize4=9000
+param0_testSize3=7000
+param0_testSize2=5000
+param0_testSize1=3000
+param0_testSize0=1000
+quiescentTime=1
+dictionary=/usr/dict/words
+searchTester.minStringSize=10
+testCorrectness=true
+searchTester.testDelete=true
+numProblemParameters=2
+problemType=search
+searchTester.falseSearchPercent=10
+searchTester.insertPercent=10
+Loading algorithm# 0 name=/Users/Remi/Documents/Fall 2015/Algorithms/cs3212/remigalvez16_a1/BinarySearchTree ... 
+ ... completed.
+Loading algorithm# 1 name=/Users/Remi/Documents/Fall 2015/Algorithms/cs3212/remigalvez16_a1/SelfAdjTree ... 
+ ... completed.
+ALGORITHM: remigalvez16 - BinarySearchTree
+SearchTester.testCompCorrectness(): algorithm=remigalvez16 - BinarySearchTree
+ => passed: Test1: 1-element test
+ => passed: Test2: 2-element test
+ => passed: Test3: 10-element test
+ => passed: Test4: 50 random 10-element tests
+ => passed: Test5: 10 random 1000-element tests
+SearchTester: FAILED: Test 6: deletion
+Test 6: deletion
+ALGORITHM: remigalvez16 - BinarySearchTree
+SearchTester.testCompCorrectness(): algorithm=remigalvez16 - BinarySearchTree
+ => passed: Test1: 1-element test
+ => passed: Test2: 2-element test
+ => passed: Test3: 10-element test
+ => passed: Test4: 50 random 10-element tests
+ => passed: Test5: 10 random 1000-element tests
+SearchTester: FAILED: Test 6: deletion
+Test 6: deletion
