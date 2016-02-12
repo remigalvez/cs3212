@@ -1,0 +1,72 @@
+ => Current directory=/Users/Remi/Google Drive/Fall 2015/Algorithms/cs3212/remigalvez162
+ => Full pathname=/Users/Remi/Google Drive/Fall 2015/Algorithms/cs3212/remigalvez162/merge.props
+ => Properties file contains 49 properties
+scale8=F0
+scale7=F0
+scale6=F0
+sortingTester.intLow=0
+problemValueType=min
+scale5=F0
+scale4=F0
+specialTest=false
+scale3=F0
+scale2=F0
+scale1=F0
+scale0=F0
+runsPerTest=5
+displayTime=true
+sortingTester.testIndex=false
+alg1=MergeSortOpt
+A8=1.0
+testPerformance=true
+alg0=MergeSort
+A7=1.0
+A6=1.0
+A5=1.0
+A4=1.0
+A3=1.0
+numTests=5
+A2=1.0
+A1=1.0
+A0=1.0
+sortingTester.testDecreasing=false
+maxExecTimeSeconds=3
+numAlgorithms=2
+debug=On
+display=true
+limitExecTime=false
+sortingTester.testComparable=true
+printToScreen=true
+printSummary=true
+param0_testSize4=90000
+param0_testSize3=70000
+param0_testSize2=50000
+param0_testSize1=30000
+param0_testSize0=10000
+quiescentTime=0
+dictionary=/usr/dict/words
+sortingTester.intHigh=10
+testCorrectness=true
+numProblemParameters=1
+sortingTester.testLarge=true
+problemType=sorting
+Loading algorithm# 0 name=/Users/Remi/Google Drive/Fall 2015/Algorithms/cs3212/remigalvez162/MergeSort ... 
+ ... completed.
+Loading algorithm# 1 name=/Users/Remi/Google Drive/Fall 2015/Algorithms/cs3212/remigalvez162/MergeSortOpt ... 
+ ... completed.
+ALGORITHM: 
+SortingTester.testCorrectness(): algorithm=
+ => passed: test1: 1-element
+SortingTester: FAILED: test2: 2-element string array
+: array: [b][a]
+
+-- index==null
+test2: 2-element string array
+ALGORITHM: 
+SortingTester.testCorrectness(): algorithm=
+ => passed: test1: 1-element
+SortingTester: FAILED: test2: 2-element string array
+: array: [b][a]
+
+-- index==null
+test2: 2-element string array

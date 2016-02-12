@@ -1,0 +1,22 @@
+Algorithm: minSemesters( adjMatrix )
+Input: Adjacency matrix of graph of n courses
+
+	for i --> 0:n
+		queue.add( i )
+	endfor
+
+	while queue is not empty
+		clear newQueue
+		for j in queue
+			for i in queue
+				// If node j has an incoming directed edge
+				if adjMatrix[i][j] > 0
+					add j to newQueue
+					break
+				endif
+			endfor
+		endfor
+
+		iter = iter + 1
+		queue = newQueue
+	endwhile

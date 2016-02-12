@@ -1,0 +1,164 @@
+\documentclass{article}
+
+\usepackage{mathtools,amsmath,amssymb}
+\usepackage[a4paper, total={6in, 8in}]{geometry}
+
+\begin{document}
+
+	\begin{flushright}
+		Remi Galvez\\
+		CSci 3212 - Exercise IV\\
+		Monday, October 26, 2015
+	\end{flushright}
+	
+	\noindent \\
+	\\
+	\textbf{A.} Given an adjacency-list representation of a directed graph, explain how you would (give high-level pseudocode):\\
+
+	\begin{itemize}
+		\item Compute the out-degrees of all vertices.
+	\end{itemize}
+	
+	\noindent \textbf{Given:} - adjList $\rightarrow$ List$<$Edges$>$[Vtx]: array of lists where each array index corresponds to a vertex, and each list stores the directed edges leaving that vertex.\\
+	\\
+	// iterate through vertices \\
+	\textbf{for} $i$ \textbf{in} $0$ : adjList.$length$ \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad $O(V)$ \\
+	\indent // compute number of edges leaving vertex $i$ \\
+	\indent outDegree$(i) =$ adjList(i).$size$ \qquad \qquad \qquad \qquad \qquad \qquad $O(1)$ \\
+	\indent // sum total number of degrees \\
+	\indent totalDegrees = totalDegrees + outDegree$(i)$ \qquad \qquad \qquad $O(1)$ \\
+	\textbf{end for} \\
+	\\
+	\textbf{return [ outDegree, totalDegrees ]} \\
+	 \\
+	 \\
+	\textbf{Answer}: \boxed{O(V)} \\
+	
+	\begin{itemize}
+		\item Compute the in-degrees of all vertices. \\
+	\end{itemize}
+	
+	\noindent \textbf{Given:} - adjList $\rightarrow$ List$<$Edges$>$[Vtx]: array of lists where each array index corresponds to a vertex, and each list stores the directed edges leaving that vertex.\\
+	\\
+	// iterate through vertices \\
+	\textbf{for} $i$ \textbf{in} 0 : adjList.$length$ \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad $O(V)$ \\
+	\indent // iterate through edges \\
+	\indent \textbf{for} e \textbf{in} adjList($i$)  \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad$O(E(v))$ \\
+	\indent \indent // increment count for end vertex (as the edge only will add an in-degree to the end vertex) \\
+	\indent \indent inDegree(e.$endVertex$) = inDegree(e.$endVertex$) + 1  \qquad \qquad $O(1)$ \\
+	\indent \indent // sum total number of degrees \\
+	\indent \indent totalDegrees = totalDegrees + outDegree$(i)$ \qquad \qquad \qquad \qquad $O(1)$ \\
+	\indent \textbf{end for} \\
+	\textbf{end for}\\
+	\\
+	Essentially, we are iterating through each edge once and incrementing the count for each end vertex. Hence,\\
+	\textbf{Answer}: \boxed{O(E)}\\
+	\textbf{C.} Describe, in pseudocode, an algorithm to detect whether a given undirected graph is bipartite, assuming the graph is input as an adjacency matrix. Provide an order-notation analysis of the running time. A graph is called bipartite if its vertices (the set $V$) can be partitioned into two sets $V_1$ and $V_2$ such that: 
+	
+	(1) no vertex is in both $V_1$ and $V_2$; 
+	
+	(2) no edge has both its end vertices in $V_1$; 
+	
+	(3) no edge has both its end vertices in $V_2$. The graph below is an example:\\
+	\\
+	\\
+	\textbf{Algorithm}: detectBipartite($g$) \\
+	\textbf{Input}: A graph's adjacency matrix\\
+	\\
+	// Label will alternate between "0" and "1" so initialize to -1 \\
+	\textbf{for} $i=0$ \textbf{to} $n-1$\\
+	\indent visitOrder[$i$] = -1 \\ 
+	\indent label[$i$] = -1 \\
+	\textbf{end for} \\
+	\\
+	// Standard queue data structure. \\
+	Create queue; \\
+	\\
+	// Look for an unvisited vertex and explore its tree.  \\
+	// We need this because the graph may have multiple components. \\
+	\textbf{for} $i=0$ \textbf{to} $n-1$ \\
+	\indent \textbf{if} visitOrder$[i] < 0$ \\
+	\indent \indent // We call this ``iterative'' because other searches are recursive. \\
+	\indent \indent detectBipartiteIterative($i$) \\
+	\indent \textbf{end if} \\
+	\textbf{end for} \\
+	\\
+	\textbf{Algorithm}: detectBipartite($u$) \\
+	\textbf{Input}:Vertex u, adjMatrix is assumed to be global.\\
+	\\
+	\indent // Queue needs to be reset for each tree. \\
+	\indent Clear queue; \\
+	\\
+	\indent //Place root of tree on the queue. \\
+	\indent queue.addToRear($u$); \\
+	\indent label$[u] = 1$ \\
+	\\
+	\indent // Continue processing vertices until no more can be added. \\
+	\indent \textbf{while} queue \textbf{not} empty \\
+	\\
+	\indent \indent // Remove a vertex. \\
+	\indent \indent v = remove item at front of queue; \\
+	\indent \indent // If it hasn't been visited ... \\
+	\indent \indent \textbf{if} visitOrder$[v] < 0$ \\
+	\indent \indent \indent // Visite the vertex. \\
+	\indent \indent \indent visitCount = visitCount + 1 \\
+	\indent \indent \indent visitOrder$[v] = $ visitCount \\
+	\indent \indent \indent // Look for neighbors to visit. \\
+	\indent \indent \indent \textbf{for} $i = 0$ \textbf{to} $n-1$ \\
+	\indent \indent \indent \indent // If two neighboring vertices have equal labels, there is an odd cycle \\
+	\indent \indent \indent \indent \textbf{if} adjMatrix$[v][i] = 1$ \textbf{and} label$[v]$ == label$[i]$ \\
+	\indent \indent \indent \indent \indent // Hence, the graph is not bipartite \\
+	\indent \indent \indent \indent \indent \textbf{return} false \\
+	\indent \indent \indent \indent \textbf{end if} \\
+	\\
+	\indent \indent \indent \indent \textbf{if} adjMatrix$[v][i]$ = 1 \textbf{and} $i$ !$= v$ \qquad // Check self-loop: $i$ !$= v$ \\
+	\indent \indent \indent \indent \indent queue.addToRear($i$) \\
+	\indent \indent \indent \indent \indent // Assign opposite label to neighboring vertices\\
+	\indent \indent \indent \indent \indent label$[i]$ = $-$label$[v]$ \\
+	\indent \indent \indent \indent \textbf{end if} \\
+	\indent \indent \indent \textbf{end for} \\
+	\indent \indent \textbf{end if} \\
+	\indent \textbf{end while} \\
+	\\
+	\indent \textbf{return} true\\
+	\\
+	\\
+	\textbf{Idea} - Run breadth-first search, and assign label to every new node labels alternating between neighbors. If two neighbors are assigned the same label, the graph has an odd cycle, and therefore cannot be bipartite. Labelling the vertices essentially represents assigning them to a partition. If two neighbors are in the same partition, the graph is not bipartite.\\
+	\\
+	\\
+	\\
+	\textbf{D. Transaction problem, part 2}. Recall the transaction problem from Exercise 3, in which we were given an array of prices. In this variation, we will allow multiple transactions, as many as one likes. The transactions must all have different buy dates, but can share common sell dates. Show how to use the ideas in part 1 (Exercise 3) along with a heap to determine the maximum possible profit, with the output listing the profitable transactions in profit order (most profitable, followed by next most profitable etc). What is the running time of this combined algorithm? Explain your analysis of the running time. \\
+	\\
+	Such an algorithm can be broken down into 3 steps: \\
+	\begin{enumerate}
+		\item Instantiate nodes for all possible transactions \qquad \qquad \qquad $\frac{n \cdot (n-1)}{2} = O(n^2)$ 
+		\item Build heap \qquad \qquad \qquad \qquad \qquad \qquad \qquad $O(n^2)$ (As there can be up to $\frac{n \cdot (n-1)}{2}$ transactions)
+		\item Print elements \qquad \qquad \qquad \qquad \qquad \qquad \qquad $O(n^2)$ (Again $n^2$ for the same reason)
+	\end{enumerate}
+	
+	\noindent \\
+	The time complexities are all worst case, as there would only be up to $\frac{n \cdot (n-1)}{2}$ transactions if the given array were sorted in increasing order.\\
+	\textbf{Answer}: \boxed{O(n^2)}
+	
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
