@@ -4,7 +4,7 @@
 
 * Navigate to directory to test
 * Compile all java files using "javac *.java"
-* Run "java -jar <path to algtest.jar> <path to .props file>"
+* Run "java -jar \<path to algtest.jar\> \<path to .props file\>"
 
 ## Directory organization
 
