@@ -8,8 +8,8 @@
 
 ## Directory organization
 
-The assignment instructions files are in each assignment folder, generally named Exercise *.html, or Assignment *.html.
-Directories with remigalvez16 followed by a number are homework exercises, and those followed by _a* are assignments (larger). Each directory contains .java files, a .props file for testing, a subdirectory with the same name, and a .jar file with the same name. 
+The assignment instructions files are in each assignment folder, generally named Exercise \*.html, or Assignment \*.html.
+Directories with remigalvez16 followed by a number are homework exercises, and those followed by _a\* are assignments (larger). Each directory contains .java files, a .props file for testing, a subdirectory with the same name, and a .jar file with the same name. 
 
 ## In-class problems
 
