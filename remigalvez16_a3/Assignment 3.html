@@ -1,0 +1,205 @@
+<HTML>
+<HEAD>
+   <TITLE> Assignment 3 </TITLE>
+</HEAD>
+<BODY BGCOLOR="#FFFFFF" LINK="#186727">
+<FONT COLOR="#0000B0">
+
+<P>
+<HR></P>
+
+<H1><FONT COLOR="#191970">Assignment 3</FONT></H1>
+
+<P>
+<HR WIDTH="100%"></P>
+<FONT COLOR="#0000B0">
+
+
+<ol>
+
+<p><li> PART I: Pen-and-paper exercises:
+  <ol type="A">
+  <!--
+  <li> Consider the graph below:
+    <p><img src="fig2.gif"><p>
+  Each edge has a weight that represents the probability of
+  being "alive". Consider the path ABEG. The probability of 
+  the path ABEG being viable is the probability that all
+  the edges in the path are "alive".
+  This is the product of the probabilities associated
+  with those edges. Thus, the probability that
+  the path ABEG is viable is <i>0.4 * 0.7 * 0.8 =
+  0.22</i>. We might term this the "viability" of the
+  path ABEG. We are interested in the "most viable" path between
+  every pair of nodes. 
+   <ul>
+   <li> In general, the input is a weighted graph with a weight
+   <i>p<sub>e</sub></i> for each edge <i>e</i> where 
+   <i>p<sub>e</sub></i> represents the probability the edge
+   is "alive" or "functioning".
+   <li> Describe an algorithm for finding the "most viable" path.
+   <br>Hint: Consider <i>log(p<sub>e</sub>)</i> for each edge <i>e</i>
+   and use the fact that <i>log (x y) = log(x) + log(y)</i>.
+   <li> Show how your algorithm finds the "most viable" path
+   from A to G step by step with the example above.
+   </ul>
+  -->
+  <!--
+  <li> Remember the wildcard search problem from Module 5? Here's your chance to work on your pseudocode skills. Write pseudocode for in-class exercise 5.7, the wildcard matching problem.
+  -->
+  <li><b>Transaction problem, part 4</b>.
+  In this variation, there are multiple transactions allowed but
+  no two transactions are allowed to overlap. That
+  is, given any two transactions A and B, if the buy date for
+  transaction A precedes the buy date for transaction B then
+  the sell date for transaction A must precede the <i>buy</i> date
+  (and hence the sell date too) of transaction B. Thus, one is
+  allowed to "hold" only one transaction at a time. 
+    <ol type="i">
+    <li> For the example price array given by
+       <tt><font color="#000000">[10,13,15,11,14]</font></tt>        
+    what is the solution to the problem?
+    <li> Show how dynamic programming can be used to solve this
+    problem. That is, try to write the dynamic programming recurrence.
+    Start by defining <i>D(i,j,k)</i> to be the optimal profit
+    obtained when at most <i>k</i> non-overlapping transactions are used
+    between days <i>i</i> and <i>j</i> inclusive. Then try to set
+    up a dynamic programming equation. 
+    </ol>
+  </ol>
+<b>Note:</b> Credit will not be given only for answers - show all your
+work: your reasoning, steps you took to get your answer etc.
+
+<p><li> PART II: Implementation:
+In this part, you will implement three, possibly four, algorithms for a
+variation of of the <em>traveling salesman problem</em>.
+In this variation, there are <i>m</i> salesmen who can
+work in parallel. The goal is to subdivide the points,
+and find a good tour for each salesman. The objective is
+to minimize the length of the worst tour among the salesmen.
+
+<p>Let's first formally define the problem:
+ <ul>
+ <li> The input is a number <i>m</i> (the number of salesmen)
+   and a collection of points on the 2D plane, that is,
+   a collection of <i>n</i> (x,y) pairs.
+ <li> As a first step, take a look at how the input is
+    given to your algorithm. Your algorithm must implement
+    the <a href="MTSPAlgorithm.html">MTSPAlgorithm</a>
+    interface. The input, thus, is the number <i>m</i> and
+    an array of points, where each point is an instance
+    of the class <a href="Pointd.html">Pointd</a>.
+  <li> Now consider what an algorithm must return as output.
+     Since each salesman is assigned a subset of points,
+     the algorithm must return the collection of points
+     assigned to each particular salesman. You are
+     required to return a 2D array such that row <i>i</i>
+     of the 2D array consists of the points assigned to 
+     salesman <i>i</i>.
+ <li> Suppose the input has 20 points and 3 salesmen. You might
+   choose to assign the first one 10 points, the second one 7
+   points and the third one 3 points. If you put these
+   points into a 2D array, and suppose that array is
+   called <font color="#000000"><tt>assignedPoints</tt></font>. Then,
+   <font color="#000000"><tt>assignedPoints[0]</tt></font> is of type <font color="#000000"><tt>Pointd[]</tt></font>
+   and <font color="#000000"><tt>assignedPoints[0].length == 10</tt></font>. Similarly,
+   <font color="#000000"><tt>assignedPoints[1].length == 7</tt></font>
+   and <font color="#000000"><tt>assignedPoints[2].length == 3</tt></font>. Thus,
+   <font color="#000000"><tt>assignedPoints</tt></font> is an uneven, staggered array.
+ <li> It is always the case that <font color="#000000"><tt>assignedPoints.length == m</tt></font>.
+ <li> Next, for each row of the 2D array, the numbers in that
+  row are to represent the tour order for that row.
+  Thus, if <font color="#000000"><tt>assignedPoints[1]</tt></font> is the array <font color="#000000"><tt>{4, 12, 9, 6, 18, 3, 5}</tt></font>
+  then, this means that salesman 1 (the second salesman)
+  was assigned points <i>4, 12, 9, 6, 18, 3, 5</i> and that the
+  tour for this salesman is the order given by <i>4, 12, 9, 6, 18, 3, 5</i>.
+ <li> Note that each tour has unique indices (that is, no point is
+   repeated, including the end).
+ <li> You might wonder if it's possible to assign no points to
+  some salesmen (if that helps). Yes, indeed, you can. You can
+  assign any number of points to any salesman. To assign zero
+  points, make the row pointer null.
+ <li> Clearly, there is some optimal assignment of points to 
+   salesmen, and after assignment, some optimal tour for each
+   salesman (among the points assigned to that salesman).
+   Your goal is not to find the absolute optimum, but to
+   try and find "good" assignments and tours.
+ </ul> 
+
+<p> You will implement these three algorithms:
+  <ul>
+  <li> A "naive" algorithm in <font color="#000000"><tt>Naive.java</tt></font> that merely 
+    divides the points more or less evenly among the salesmen
+    ("more or less" because <i>m</i> may not exactly divide
+    the number of points).
+  <li> A "greedy" algorithm in <font color="#000000"><tt>Greedy.java</tt></font>
+  that will execute in polynomial time.
+  <br>Note: implement a "greedy" algorithm (that builds a solution
+  step by step) as opposed to a "greedy-local-search" algorithm
+  (that explores the state space).
+  <li> Simulated annealing, in <font color="#000000"><tt>Annealing.java</tt></font>
+  </ul>
+
+<p><b>[Bonus points].</b> You can optionally implement a fourth algorithm
+for extra points that will be applied to a previous low-scoring
+assignment or exercise.
+This would an algorithm that you design, with the objective of beating
+the above three algorithms. Implement this in
+a file called <font color="#000000"><tt>MyAlgorithm.java</tt></font>
+
+<p>Implementation details:
+  <ul>
+  <li> All three (or four) classes will need to implement the 
+   <a href="MTSPAlgorithm.html">MTSPAlgorithm</a> 
+   interface.
+  <li> The interface has only one method:
+    <font color="#000000"><pre>
+    int[][] computeTours (int m, Pointd[] points)
+    </pre></font>
+  <li> Use the <a href="mtsp.props">mtsp.props</a> properties
+  file to run your algorithm in the test environment. 
+  <li> Note that the test environment does not do much correctness-testing.
+  The nature of optimization problems is that any dumb algorithm can produce
+  a valid assignment - the value comes from the quality of the assignment.
+  Thus, you need to submit evidence that your non-naive algorithms are
+  doing "some good". Compare the quality of solution produced and time
+  taken to produce the solutions for these algorithms.
+  <li> Submit an example (on paper) to show that your greedy algorithm does
+  not always produce the optimal solution.
+  <li> Analyse the running time (in order-notation, on paper) of your greedy
+  algorithm.
+  <li> Using an example (on paper), 
+  explain the neighborhood function used by your implementation
+  of simulated annealing.
+  <li> Submit documentation to explain how your own algorithm works.
+   Use an illustrative example.
+  <li> <b>Important:</b> You will need to download the latest version of 
+the test environment.
+  </ul>
+
+</ol>
+
+
+<P><B><FONT COLOR="#000080">Submission: </FONT></B></P>
+
+<UL>
+<li> Parts I and II are both due at the same time.
+<li> For this assignment and others, you will need to follow
+the usual <a href="../../submit/submit.html">submission instructions</a>
+carefully.
+<li> 
+The name of subdirectory should be: your username
+followed by <font color="#000000"><tt>_a3</tt></font>. 
+<br>
+Example: if your username is <font color="#000000"><tt>beavis</tt></font>
+your subdirectory will be called 
+<font color="#000000"><tt>beavis_a3</tt></font>.
+<br> Thus, the jar file will be called 
+<font color="#000000"><tt>beavis_a3.jar</tt></font>.
+</ul>
+
+<P>
+<HR WIDTH="100%"></P>
+
+</BODY>
+</HTML>

@@ -1,0 +1,198 @@
+<HTML>
+<HEAD>
+   <TITLE> Assignment 1 </TITLE>
+</HEAD>
+<BODY BGCOLOR="#FFFFFF" LINK="#186727">
+<FONT COLOR="#0000B0">
+
+<P>
+<HR></P>
+
+<H1><FONT COLOR="#191970">Assignment 1</FONT></H1>
+
+<P>
+<HR WIDTH="100%"></P>
+<FONT COLOR="#0000B0">
+
+
+<ol>
+
+<li> PART I: Pen-and-paper exercises:
+  <ol type="A">
+  <!--
+  <li> Suppose <i>f(n) = sqrt(log(n))</i>. Show that 
+    <i>2<sup>f(n)</sup> = O(n<sup>a</sup>)</i> for some <i>a</i>.
+   -->
+  <li> Analyze the following code and provide a "Big-Oh" estimate of
+  its running time in terms of <i>n</i>. Explain your analysis.
+    <pre><font color="#000000">
+    void compute (int n, double[][] A, double[][] B, double[][] C, double[][] D)
+    {
+       for (int i=0; i < n; i++) {
+         for (int j=0; j < n; j++) {
+           C[i][j] = A[i][j] + B[i][j];
+         }
+       }
+
+       for (int i=0; i < n; i++) {
+         for (int j=0; j < n; j++) {
+           for (int k=0; k < n; k++)
+              D[i][j] = D[i][j] + A[i][k] * B[k][j];
+         }
+       }
+
+    }
+    </font></pre>
+  <li> Insert the nine (1-letter) keys "A B C D E F G H I" into an empty multiway
+  tree of degree 2 and show the intermediate steps. Also, work out the
+  insertion steps for a multiway tree of degree 3.
+  <li> Show the intermediate trees when the seven keys "D A C B E F G" get inserted
+  into a self-adjusting binary tree. Remember that a newly inserted
+  element is moved to the root so that every insertion will cause
+  re-organization. Write down the which rotation case (e.g., Case
+  1(a), Case 3, etc) you are using with each diagram.
+  <li> Consider the following example of a binary tree:
+     <p><img src="bintree-ex.png" width="180" height="90">
+   There are several different ways of printing the nodes in 
+   a binary tree:
+     <ul>
+     <li> Define a <i>level-print</i> as the sequence of nodes
+      you get when you start at the top and go level by level,
+      and going left to right.
+      With the tree above, you get: "D B F A C E".
+     <li> Define a <i>Node-Left-Right-print</i> (NLR-print, for short)
+       recursively as follows: print the node, then recursively print 
+       the left subtree, then recursively print the right subtree.
+      With the tree above, you get: "D B A C F E".
+     <li> Define a <i>Left-Right-Node-print</i> (LRN-print, for short)
+       recursively as follows: recursively print 
+       the left subtree, then recursively print the right subtree,
+       then print the node.
+      With the tree above, you get: "A C B E F D".
+     </ul>
+    Write neat, detailed pseudocode for each of the three print methods,
+    making sure you handle the bottom-out cases for the recursion.
+    Trace the execution of the three print methods using the above
+    example, showing the contents of the stack at each step.
+  <li> Who is generally credited with the invention or discovery of MergeSort?
+  Write a few sentences summarizing this person's contributions to computing.
+  </ol>
+<b>Note:</b> Credit will not be given only for answers - show all your
+work: your reasoning, steps you took to get your answer etc.
+
+<p><li> PART II: Implement (1) a binary search tree, and (2) a
+self-adjusting binary tree as described in Module 3. In particular:
+  <ul>
+  <li> Your algorithms will need to implement the
+  <a href="TreeSearchAlgorithm.html"> TreeSearchAlgorithm</a>
+  interface that itself extends the
+  <a href="OrderedSearchAlgorithm.html">
+  OrderedSearchAlgorithm</a> interface.
+  The only addition with the second interface is, you will make the root of your tree
+  available public (for testing).
+  <!--
+  <li> For testing deletion, the 
+  <a href="OrderedSearchAlgorithm.html">
+  OrderedSearchAlgorithm</a>
+  interface has now been modified to include deletion (among
+  other operations). Note that the other operations are to find the
+  <em>successor</em> and <em>predecessor</em> of a given key. 
+  -->
+  <li> To understand how <i>enumeration</i> works for a data
+  structure, read through <a href="http://www.seas.gwu.edu/~simhaweb/alg/hw/DataStructureWithEnumeration.java">this example</a>.
+  <li> Recall that deletion
+  for a self-adjusting tree is the same as in a regular binary search tree. 
+  Most importantly, 
+  both insertion and search in a self-adjusting binary tree cause the
+  node in question to be moved into the root position.
+  <li> Make sure that your follow the five CASES described in Module 3
+  and that you indicate in comments which sections of code apply to
+  which case.
+  <li> Note that you will be building your tree code using the 
+  <a href="TreeNode.html">TreeNode</a> class. In this class,
+  all you will need to use are the three fields <tt><font color="#000000">left, right</font></tt>
+  and <tt><font color="#000000">parent</font></tt>. You may choose to use a constructor if you wish
+  but do not have to since all these variables are <tt><font color="#000000">public</font></tt>.
+  <li> Make sure that your code properly sets the 
+   <tt><font color="#000000">parent</font></tt> field for each tree node.
+  <li> As usual, you will need to include tests in your <tt><font color="#000000">main</font></tt>
+  method. In particular, include the example from Part I above.
+  <li> Write your binary search tree code in a file called 
+      <font color="#000000"><tt>BinarySearchTree</tt></font>
+    and your self adjusting tree in 
+ <tt><font color="#000000">SelfAdjTree.java</font></tt>.
+  <li> Suggested steps for implementation: 
+    <ul>
+    <li> First, implement search and insertion for the  simple binary search tree.
+     This will get you comfortable with "tree" programming. Try to do
+     this in the first week. Also, use the pseudocode towards the end
+     of Module3 (for self-adjusting trees) as a starting point - just
+     comment out the part about moving a newly-inserted (or
+     searched-for) element to the root.
+    <li> Then, implement deletion for binary search trees and test.
+    <li> Next, use the binary search tree code as the starting point
+      for your self-adjusting tree.
+      Implement the splaysteps, and try it out only on
+     search. (This way, you avoid having to debug both insertion and
+     moving-to-root at the same time).
+     <li> Finally, implement insertion and the rest of the operations.
+    </ul>
+  <li> Note: the test environment will throw several tests at your
+  implementation. For each test, the test-environment will call
+  your tree's
+    <tt><font color="#000000">initialize()</font></tt> 
+  method where you will have a chance to reset, set the root to null etc.
+  <li> Your tree should not need to know the data types of the keys
+  and values, that is, whether they are strings or integers or
+  something else. All that's needed is that keys need to be
+    <tt><font color="#000000">Comparable</font></tt>.
+  The values can be of any object type. 
+  The test-environment will indeed provide such keys and objects.
+  <li> Compare the performance of the self-adjusting tree with the
+  binary search tree.
+  <li> You may use <a href="a1.props">this properties file</a>.
+  Initially, to make testing and development a little easy,
+  set "testDelete=false", "testLarge=false", "testPredSucc=false",
+  and "testEnum=false". This will make
+  sure that deletion, large-size data, 
+  and enumeration do not get tested. Later,
+  when you have insertion and search working, you can set these to true.
+  <li> Before starting, download the latest version of the test environment
+   (algtest.jar). This is a good thing to do for each 
+   assignment, just in case there have been changes made to the 
+    test-environment code.
+  <li> Relevant links:
+    <br><a href="Algorithm.html">Algorithm interface</a>
+    <br><a href="SearchAlgorithm.html">SearchAlgorithm interface</a>
+    <br><a href="OrderedSearchAlgorithm.html">OrderedSearchAlgorithm interface</a>
+    <br><a href="TreeSearchAlgorithm.html">TreeSearchAlgorithm interface</a>
+    <br><a href="TreeNode.html">TreeNode class</a>
+    <br><a href="ComparableKeyValuePair.html">ComparableKeyValuePair class</a>
+  </ul>
+
+</ol>
+
+
+<P><B><FONT COLOR="#000080">Submission: </FONT></B></P>
+
+<UL>
+<li> Part I is due (in my mailbox) one week before Part II. However, you would be
+well-advised to get started with Part II early.
+<li> For this assignment and others, you will need to follow
+the usual <a href="../../submit/submit.html">submission instructions</a>
+carefully.
+<li> The name of subdirectory for this exercise should be: your username
+followed by <font color="#000000"><tt>_a1</tt></font>. 
+<br>
+Example: if your username is <font color="#000000"><tt>beavis</tt></font>
+your subdirectory will be called 
+<font color="#000000"><tt>beavis_a1</tt></font>.
+<br> Thus, the jar file will be called 
+<font color="#000000"><tt>beavis_a1.jar</tt></font>.
+</ul>
+
+<P>
+<HR WIDTH="100%"></P>
+
+</BODY>
+</HTML>

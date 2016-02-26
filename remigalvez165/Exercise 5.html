@@ -1,0 +1,273 @@
+<HTML>
+<HEAD>
+   <TITLE> Exercise 5 </TITLE>
+</HEAD>
+<BODY BGCOLOR="#FFFFFF" LINK="#186727">
+<FONT COLOR="#0000B0">
+
+<P>
+<HR></P>
+
+<H1><FONT COLOR="#191970">Exercise 5</FONT></H1>
+
+<P>
+<HR WIDTH="100%"></P>
+<FONT COLOR="#0000B0">
+
+
+<ol>
+
+<li> Pen-and-paper exercises:
+  <ol type="A">
+  <!--
+  <li> 
+  In each of the graph examples below, your graph should have
+  at least 6 nodes.
+     <ol>
+     <li> Draw an example of a graph such that if you remove any
+     one edge, the resulting graph remains connected.
+     <li> Draw an example of a graph such that if you remove any
+     edge, the resulting graph is not connected.
+     <Li> Draw an example of a graph such that only one edge in the
+     graph has the property that if you remove it, the resulting
+     graph will not be connected.
+     <!-- 
+     <li> In a <em>edge-biconnected</em> graph, 
+     every pair of nodes has two edge-disjoint paths connecting the pair.
+     That is, for nodes i and j, you can find two paths connecting i and
+     j such that the two paths have no edges in common.
+     Draw an example of an edge-biconnected graph such that 
+     removal of any edge in the graph will ensure that no two 
+     nodes have two edge-disjoint paths between them.
+     </ol>
+  -->
+  <li> For the graph below, show the steps in executing Kruskal's
+  algorithm and Prim's algorithm. Draw the graph with the
+  MST edges identified at each step.
+    <center>
+    <p><img src="fig.gif"><p>
+    </center>
+
+  <Li> Suppose a new degree curriculum is being offered with
+   exactly <i>N</i> courses, all of which are required. Various
+   courses have pre-requisites; a single course can have multiple
+   pre-requisites. The curriculum is properly designed in that you can't
+   go back a pre-requisite chain and loop back to the starting course.
+   Suppose also that a student can take any number of courses in
+   a semester. Describe in pseudocode an algorithm to find the
+   minimum number of semesters needed to graduate? What is
+   the running time of your algorithm?
+
+  <li> <b>Transaction problem, part 3</b>.
+  We'll allow multiple transactions.
+  Suppose now the buy dates and sell dates all have to be different
+  dates. That is no two transactions can share either a buy day or 
+  a sell day. 
+    <ol type="i">
+    <li> Show how to draw a bipartite graph with the potential buy dates on the
+      left side, and the potential sell dates on the right, with
+      an edge between a candidate buy-date and candidate sell-date
+      for a transaction.
+      Show the bipartite graph you get with this data:
+       <tt><font color="#000000">[10,13,15,11,14]</font></tt>        
+    <li> Read the wikipedia (or other) material on the graph matching
+      problem and then explain how the matching problem for
+      bipartite graphs can be used for our transaction problem,
+      where the goal is to find as many transactions as possible
+      so that the total profit is maximized?
+      How should the edges be labeled with weights for the transaction
+      problem? 
+    </ol>
+
+  </ol>
+
+
+<b>Note:</b> Credit will not be given only for answers - show all your
+work: your reasoning, steps you took to get your answer etc.
+
+<p><li> <b>[Optional: for Bonus points]</b>
+
+This part of the exercise is <i>optional</i>. The extra points earned
+here will be applied to the previous exercise/assignment on which
+you have the lowest score amongst those submitted thus far. 
+Thus, for example, if your submission of Exercise 2 has
+the lowest score amongst all your submissions up to and including this one,
+we will add the points earned here to your total for Exercise 2.
+
+
+<p>
+In this part, you will use Kruskal's algorithm (with adjacency
+matrices)
+to estimate the minimum-spanning tree weight of a randomly-created
+set of points. The points will be <i>n</i>
+random points in the unit square.
+  <ul>
+  <li> Consider a set of random points in the plane. For example,
+  suppose these were pegs nailed to a board. Suppose you had
+  to connect these pegs with the least amount amount of string.
+  Note that this is just the minimum spanning tree problem.
+  (You need to think about this for a few minutes).
+  The goal is to compute the weight of the minimum spanning tree
+  for a random set of points. Here, you can assume an "edge"
+  between each pair of points with the distance between as the weight.
+  <li> How do you generate <i>n</i> random points in the unit square?
+  And just what is the <i>unit square</i>?
+  <br> The unit square is the square with one corner at the origin
+  (0,0) and opposite corner at (1,1).
+  To generate a point randomly, we can use 
+   <font color="#000000"><tt>UniformRandom.uniform()</tt></font>
+  to generate a value randomly between 0 and 1 for the X value,
+  and call it once again for the Y value.
+  So, to generate <i>n</i> such X and Y values, you can use this
+  code:
+   <font color="#000000"><pre>
+    for (int i=0; i < n; i++)
+      X[i] = UniformRandom.uniform();
+    for (int i=0; i < n; i++)
+      Y[i] = UniformRandom.uniform();
+   </pre></font>
+  <li> Modify the code given to you in Module 8 for Kruskal's algorithm.
+  Read through this carefully. 
+  <!--Much of this code can be re-used for 
+  the adjacency-list version (if you choose to go for the bonus points).-->
+  <li> Name your class <font color="#000000"><tt>Kruskal.java</tt></font>.
+  <li> Your class will need to implement the
+  <a href="SpanningTreeAlgorithm.html">SpanningTreeAlgorithm</a> interface.
+  In particular, you will need to provide implementations for these 
+  methods: 
+  <font color="#000000"><tt>initialize(),
+  minimumSpanningTree(double[][] adjMatrix)</tt></font> 
+  and <font color="#000000"><tt>getTreeWeight()</tt></font>.
+  <li> The classes and interfaces involved in this exercise are:
+    <br> The <a href="Algorithm.html">Algorithm</a> interface
+    <br> The <a href="SpanningTreeAlgorithm.html">SpanningTreeAlgorithm</a> interface
+  <li> Also, Kruskal's algorithm will
+  need an implementation of Union-Find. For this purpose, you
+  should create a class called 
+   <font color="#000000"><tt>UnionFindInt</tt></font>.
+  You can intuit what this class needs to have from its use
+  in the Module 8 examples.
+  <li> Use the test environment to test your minimum spanning tree algorithm. 
+  However, it does not compute the <em>average</em> tree weight.
+  Simply submit your hardcopy and evidence that your code worked
+  for the average-weight problem.
+  <li> Use <a href="mst.props">this properties file</a> for testing
+  your adjacency matrix implementation.
+  <li> Also submit the output for the following experiments
+  in your jar file (as PDFs):
+    <ul>
+    <li> Run your algorithm once with <i>n=10</i> points. For this 
+    particular case, draw by hand the actual points on a unit 
+    square (draw the square to be at least 3 inches per
+    side), labeling the points 0, ... n-1,
+    and indicate which edges were in the spanning tree your
+    algorithm computed.
+    <li> Plot a graph of the <i>average</i> MST weight vs n (the number of
+    points) for <i>n=10, 20, ..., 100</i>. To get the data point for
+    <i>n=10</i> points, you should take an average of a 100 MSTs.
+    </ul>
+  </ul>
+
+
+<!--
+<p> Next, use your implementation for the following:
+  <ul>
+  <li> Suppose I have <i>n</i> points and a minimum-spanning tree already
+  computed. Consider two options if another point is added to the data
+  set: 
+    <ol>
+    <li> <b>Recompute</b>. In this option, you recompute the MST again
+     using the <i>n+1</i> points as input.
+    <li> <b>Join-Heuristic</b>. In this option, you find the closest
+      existing point (among the first <i>n</i> points) to the new
+      (<i>(n+1)</i>-st) point and put the edge between them in the new MST.
+    </ol>
+  <li> How much more efficient (in order-notation) is the Join-Heuristic?
+  <li> How much worse, on average, is the MST produced by the
+    Join-Heuristic?
+  </ul>
+-->
+
+<!--
+<p> For 20 bonus points, implement Kruskal's algorithm for adjacency list
+representations of graphs:
+  <ul>
+  <li> Much of the code for adjacency matrices can be re-used for 
+  the adjacency-list version.
+  <li> Your class will need to implement 
+  <a href="SpanningTreeAlgorithm.html">the <tt>SpanningTreeAlgorithm</tt> interface</a>.
+  In particular, you will need to provide implementations for these 
+  methods: 
+  <font color="#000000"><tt>initialize(),
+  minimumSpanningTree(GraphVertex[] adjList)</tt></font> 
+  and <font color="#000000"><tt>getTreeWeight()</tt></font>.
+  <li> The classes and interfaces involved in this exercise are:
+    <br> <a href="Algorithm.html">the <tt>Algorithm</tt> interface
+    <br> <a href="SpanningTreeAlgorithm.html">the <tt>SpanningTreeAlgorithm</tt> interface</a>
+    <br> <a href="GraphEdge.html">the <tt>GraphEdge</tt> class</a>
+    <br> <a href="GraphVertex.html">the <tt>GraphVertex</tt> class</a>.
+  <li> Use <a href="mst.props">this properties file</a> for testing.
+  <li> The classes <font color="#000000"><tt>GraphEdge</tt></font> and 
+  <font color="#000000"><tt>GraphVertex</tt></font> deserve
+  further explanation. Recall that an adjacency list representation of
+  a graph is an array of linked-lists. There is one linked-list for
+  each vertex: this list for a vertex is simply a list of edges attached to that vertex.
+  In a graph with <i>n</i> vertices, there will be one such list for
+  each of the <i>n</i> vertices. How do we store this collection of
+  lists? Easy. Just use an array of such lists. So, it would seem like
+  an array of linked lists such as 
+    <font color="#000000"><tt>LinkedList[] adjList</tt></font>
+  would be sufficient, right? Yes, that's true but sometimes we wish
+  to store additional information along with each vertex, such as
+  the current "priority" of each vertex (in Prim's algorithm, for example).
+  For this purpose and others, it makes sense to create a special
+   <font color="#000000"><tt>GraphVertex</tt></font>
+  class that can store not only the list of edges for the vertex, but
+  also this additional information.
+  Thus, an adjacency list is then an array
+   <font color="#000000"><tt>GraphVertex[] </tt></font>
+  of such 
+   <font color="#000000"><tt>GraphVertex</tt></font>
+  instances.
+  <br> This is why the input to a spanning tree algorithm (for the
+  adjacency list) is 
+   <font color="#000000"><tt>GraphVertex[] </tt></font>
+  and why each 
+   <font color="#000000"><tt>GraphVertex</tt></font>
+  has a <tt>LinkedList</tt>
+   that will contain 
+   <font color="#000000"><tt>GraphEdge</tt></font>
+  instances.
+  <li> Note: for Kruskal's algorithm, you only need the list of
+  edges in each graph vertex. 
+  <li> You are required to return the computed minimum spanning tree
+  as an adjacency list. Thus, the return value is of type
+   <font color="#000000"><tt>GraphVertex[] </tt></font>
+  as well in the 
+    <font color="#000000"><tt>minimumSpanningTree()</tt></font> method.
+  </ul>
+-->
+
+
+</ol>
+
+<P><B><FONT COLOR="#000080">Submission: </FONT></B></P>
+
+<UL>
+<!--
+<li> Include your results in a small one-page write up in
+your jar.
+-->
+<li> For this assignment and others, you will need to follow
+the usual <a href="../../submit/submit.html">submission instructions</a>
+carefully.
+<li> As usual, you are expected to implement your own copious testing
+of your algorithms. 
+</ul>
+
+
+<P>
+<HR WIDTH="100%"></P>
+
+</BODY>
+</HTML>

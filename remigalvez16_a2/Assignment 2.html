@@ -1,0 +1,422 @@
+<HTML>
+<HEAD>
+   <TITLE> Assignment 2 </TITLE>
+</HEAD>
+<BODY BGCOLOR="#FFFFFF" LINK="#186727">
+<FONT COLOR="#0000B0">
+
+<P>
+<HR></P>
+
+<H1><FONT COLOR="#191970">Assignment 2</FONT></H1>
+
+<P>
+<HR WIDTH="100%"></P>
+<FONT COLOR="#0000B0">
+
+
+<ol>
+
+<p><li> PART I: Pen-and-paper exercises:
+  <ol type="A">
+  <li> Analyze the following code and provide a "Big-Oh" estimate of
+  its running time in terms of <i>n</i>. Explain your analysis.
+    <pre><font color="#000000">
+    s = 0;
+    i = 1;
+    while (s < n) {
+      s = s + i;
+      i = i + 1;
+    }
+    </font></pre>
+  <Li> Simplify <i>O (n * (n<sup>2</sup> + log(n) * (3*n +
+  (3*n<sup>2</sup>)/log(n) ) ) )</i>.
+  <li> Explain (with a detailed argument)
+  that a full trie with <i>O(n)</i> leaves has at most <i>O(n)</i>
+  interior nodes.
+  <li> Consider the following high-level pseudocode for a 
+    recursive text search algorithm given the text and pattern.
+   <pre><font color="#000000">
+   <b>Algorithm:</b> textSearch (text, pattern)
+   <b>Input:</b> two char arrays text and pattern of lengths n and m
+   1.    <b>for</b> i=0 </b>to</b> n-1
+   2.       <b>if</b> recursiveMatch (i, 0, m-1)
+   3.           <b>return</b> true
+   4.       <b>endif</b>
+   5.    <b>endfor</b>
+   6.    <b>return</b> false
+
+   <b>Algorithm:</b> recursiveMatch (i, p, q)
+   <b>Input:</b> See if there's a match at position i in text with 
+          the chars in the pattern between positions p and q
+   1.   // Base cases ... not shown
+
+        // Find the middle index.
+   2.   m = (p+q)/2
+   3.   If both the left half and right half of the range [p,q] match, 
+        then return true otherwise return false
+   </pre></font>
+   Flesh out the pseudocode with details (base cases, and the 
+   recursive calls. Then, analyze the algorithm's execution time: what
+   is the worst-case execution time in terms of m and n?
+  <li>
+  Read <a href="http://www.wired.com/2014/11/algorithms-great-can-also-ruin-lives/">Wired
+  Magazine story</a> on how algorithms can "ruin lives". In what ways
+  are the algorithms hinted at in the article different from the ones
+  we've studied?
+  <li> Who is the "K" in the KMP text search algorithm we studied? 
+  Describe three of his contributions to computer science.
+  </ol>
+<b>Note:</b> Credit will not be given only for answers - show all your
+work: your reasoning, steps you took to get your answer etc.
+
+<p><li> PART I: Implementation:
+In this part, you will implement the naive algorithm for 
+the <em>rectangle-set intersection problem</em>. In this
+problem the input consists of two sets of rectangles.
+The goal is to identify all pairs of rectangles that
+intersect where the first rectangle in each pair is 
+from the first set, and the other rectangle in the pair
+is from the second set.
+
+<p>Rectangles can be specified in many ways. We will use
+the following convention: the top-left and bottom-right corners.
+If you know these two points, then the two points uniquely
+determine a rectangle.
+
+<p> For example, consider these two sets of rectangles in the
+region specified by (0,100) and (100,0):
+  <ul>
+  <li> Set1 = {R1, R2, R3} where
+    <br> R1 = [ (5,80), (20,70) ]
+    <br> R2 = [ (20,60), (40,50) ]
+    <br> R3 = [ (20,30), (40,20) ]
+  <li> Set2 = {R4, R5, R6, R7} where
+    <br> R4 = [ (70,80), (80,70) ]
+    <br> R5 = [ (30.55), (60.25) ]
+    <br> R6 = [ (50,30), (65,20) ]
+    <br> R7 = [ (70,30), (80,20) ]
+  </ul>
+You can see that R2 intersects R5, and R3 intersects R5.
+These are the intersections to report: R2-R5 and R3-R5.
+It so happens that R5 and R6 intersect, but since they
+are from the same set, we don't report this intersection.
+
+The naive algorithm works by examining each possible pair
+of rectangles (one from each set) and determining whether the pair 
+intersect, similar to the naive algorithm for
+the largest-distance problem in Module 1.
+
+<p>
+Now, determining whether two rectangles intersect requires some
+clarification:
+  <ul>
+  <li> To simplify the problem, we will use only integer coordinates.
+  That is, the corners of rectangles, as well as the boundaries of
+  the region will be specified with integer coordinates.
+  <li> We will consider two rectangles as intersecting if they 
+  have any point in commong, even
+  a single point (a corner) in common.
+  Thus, R1=[(1,5), (5,1)] and R2=[(5,10), (10,5)] intersect
+  even though (5,5) is the only point they have in common.
+  Similarly two rectangles are considered intersecting if any
+  of their sides overlap a bit, one is inside the other or 
+  exactly overlap. Thus, if you think of a rectangle as the
+  set of points on its boundary and in its interior, then
+  two rectangles intersect if their point-sets have a point (or
+  more) in common.
+  </ul>
+
+<p>
+To implement:
+  <ul>
+  <li> Write your code in a class called
+  <tt><font color="#000000">NaiveRectIntersection.java</font></tt>. This class will need to implement
+  the <a href="RectangleSetIntersectionAlgorithm.html">RectangleSetIntersectionAlgorithm</a>
+  interface.
+  <li> The classes/interfaces involved are: 
+    <ul>
+    <li> <a href="Algorithm.html">Algorithm</a>.
+     The interface for all algorithms that use the test-environment.
+    <li> <a href="RectangleSetIntersectionAlgorithm.html">
+     RectangleSetIntersectionAlgorithm</a>.
+     This is the interface for algorithms that solve the rectangle-set-intersection problem.
+    <li> <a href="IntPoint.html">IntPoint</a>.
+     A class that represents a point with x and y values
+     (as <tt><font color="#000000">int's</font></tt>). 
+    <li> <a href="IntRectangle.html">IntRectangle</a>.
+     A class that represents a rectangle with integer coordinates.
+    <li> <a href="IntPair.html">IntPair</a>. 
+     A class that represents a pair of rectangle ID's
+     (as <tt><font color="#000000">int's</font></tt>). 
+    </ul>
+   Note that <tt><font color="#000000">IntPoint, IntRectangle</font></tt>
+   and <tt><font color="#000000">IntPair</font></tt>
+   are already implemented for you; you will merely use these classes.
+  <li> Note: each rectangle instance will have a unique ID. Thus, the
+  input sets consist of two arrays of rectangles, each of which will
+  have a unique ID. Suppose a rectangle with ID=5 is in the first set
+  and that it intersects with a rectangle with ID=12 in the second
+  set. Then, you will need to return the pair (5,12) as part of
+  the return value of the method in 
+  <tt><font color="#000000">RectangleSetIntersectionAlgorithm</font></tt>.
+  How do you create the pair? Simply create an instance of 
+  <tt><font color="#000000">IntPair</font></tt> as in:
+   <pre><font color="#000000">
+     IntPair ip = new IntPair (5, 12);
+   </font></pre>
+  Of course, you will be doing this in a loop and will be creating
+  instances to add to the array that you will finally return
+  in the method 
+  <font color="#000000"><tt>findIntersections</tt></font>.
+  <li> <b>Important</b>: if there are no intersections, you
+  should return <font color="#000000"><tt>null</tt></font>.
+  <li> You will need the following import statements in your classes:
+   <pre><font color="#000000">
+import edu.gwu.algtest.*;
+import edu.gwu.util.*;
+import edu.gwu.geometry.*;
+import java.util.*;
+   </font></pre>
+  <Li> You may use the following <a href="a2.props">properties
+  file</a> to test.
+  </ul>
+
+<p><li> PART I: Pseudocode: 
+Read through part II below and provide pseudocode for your
+algorithm(s). 
+Since part II is not trivial, this will get you started with thinking
+about part II.
+Write your pseudocode neatly using the style in the modules.
+Note: we will grade your pseudocode and compare it with
+your actual code the following week. So, you really
+need to think about your pseudocode carefully and
+plan on using it for Part II.
+
+
+<p><li> PART II Implementation:
+In this part, you will implement an interesting tree-like structure
+to reduce the number of rectangle-intersections computed.
+
+<p> Here's how it would work:
+  <ul>
+  <li> The tree structure is called a <em>Rectangle Filter Tree</em>.
+  <li> For starters, let us consider a data set consisting of a
+  collection of rectangles and show how a data set of rectangles is
+  inserted into a filter tree (just as a data set of strings might be
+  inserted into a binary search tree). Later, we will show how to
+  relate this structure to our original problem of finding
+  intersections amongst rectangles in <em>two</em> data sets.
+  <li> The general idea is to break up the region into imaginary sub-rectangles, 
+  that are each then subdivided into imaginary (and smaller)
+  sub-rectangles ... and so on. We take our input set of data
+  rectangles and insert each rectangle one by one into the filter tree.
+  The data rectangles are usually quite small and will get inserted 
+  into the appropriate sub-rectangle in the tree. Hopefully, if the
+  data rectangles are spread out, then they'll spread out over the
+  tree, allowing for efficient search later on.
+  <li> A picture will help us understand the details. Let's 
+  consider inserting the following five data rectangles into
+  a filter tree that spans the region defined by [(0,100), (100,0)]:
+    <br> R1 = [(89,57), (91,37)]
+    <br> R2 = [(12,80), (45,66)]
+    <br> R3 = [(28,40), (39,29)]
+    <br> R4 = [(18,70), (32,60)]
+    <br> R5 = [(79,94), (82,90)]
+  <p>Here are the rectangles depicted in the region [(0,100), (100,0)]:
+    <p><img src="fig2.gif"><p>
+  <li> First, we will look at what the filter tree looks like after
+  all five data rectangles are inserted. Staring at this might be
+  enough to understand how it works. We'll go through the steps next.
+    <p><img src="fig3.gif"><p>
+  <li> Here's an intuitive way to understand filter trees and to see
+  why it's so named. The enclosing region [(0,100), (100,0)]
+  represents the root node of the tree. Now the root node has
+  horizontal and vertical <em>bisectors</em>. The horizontal
+  bisector is the line that cuts the rectangle in half horizontally;
+  the vertical bisector cuts the rectangle in half in the vertical direction.
+  <br>Note that the bisectors together create four smaller
+  sub-rectangles that we will call <em>quadrants</em>
+  (squares, in this particular example). These four sub-rectangles 
+  form the four nodes at the next level of the filter tree. 
+  Each of these can be bisected horizontally and vertically to
+  form 16 nodes at the third level of the tree ... and so on.
+  <br> Now suppose we built a wire-frame grid for each rectangle at
+  each level and "dropped" the data rectangles from above.
+  Some data rectangles would fall through the top level (R2, R3, R4,
+  R5), while others (R1) would get "trapped". The level at which 
+  a data rectangle gets trapped determines the node in the tree
+  where the data rectangle gets stored. Of course, we limit the
+  number of levels so that eventually a data rectangle gets stored
+  somewhere.
+    <p><img src="perspect.gif"><p>
+  <li> Now let's examine how the five data rectangles got inserted one
+  by one.
+    <ul>
+    <li> In our example, we will build a 3-level tree (Filter trees
+    can have arbitrary depth).
+    <li> Initially, the root node is empty and there are no data
+    rectangles:
+    <p><img src="fig_init.gif"><p>
+    <li> We will use this convention for numbering the quadrants:
+    quadrant 0 is the Northeast quadrant, quadrant 1 is the Northwest
+    quadrant ... and so on.
+    <p><img src="fig_init2.gif"><p>
+    <li> The first data rectangle (R1 = [(89,57), (91,37)]) is
+    "dropped" into the current tree. It happens to get trapped at
+    the root level and is stored in a linked list off of the root level.
+    <p><img src="fig4.gif"><p>
+    <li> The second data rectangle (R2 = [(12,80), (45,66)])
+    is now dropped into the tree. It falls through the root into 
+    quadrant 1. However, no node exists in the tree for quadrant 1,
+    so we create it. R2 gets trapped by the bisectors of this
+    sub-rectangle so it gets stored in the linked list off of this
+    tree node.
+    <p><img src="fig5.gif"><p>
+    <li> The third data rectangle (R3 = [(28,40), (39,29)])
+    is now dropped into the current tree. It falls through the root
+    node, into quadrant 2, which needs to be created. Once it's
+    created, R3 also falls through the second-level node into the
+    third level, where it gets trapped:
+    <p><img src="fig6.gif"><p>
+    <li> The fourth data rectangle (R4 = [(18,70), (32,60)]) falls
+    through the root and gets trapped at the next level in the 
+    rectangle for quadrant 1 (of the root). This is where it gets stored:
+    <p><img src="fig7.gif"><p>
+    <li> The fifth data rectangle (R5 = [(79,94), (82,90)]) falls
+    through the root (quadrant 0, which is created), then falls
+    through quadrant 0 of the second level (which is created
+    at the third level of the tree). It also falls through the
+    third level, but since we are limiting the number of levels
+    to three, we store the rectangle at this level.
+    <p><img src="fig8.gif"><p>
+    <li> The tree is now constructed. 
+    <li> The most important observation to make is that each
+    sub-rectangle in the tree is treated in the same way. 
+    Thus,
+    it is easy to write recursive code for insertion.
+    <!--
+    <li> See <a href="a2pseudo.html">Pseudocode</a>.
+    -->
+    </ul>
+
+  <p><li> Next, consider how searching is done in the tree:
+    <ul>
+    <li> What does "search" really mean in this geometric-object
+    context? 
+     <br> => In search, the input is a "query" rectangle Q for which
+     we need to find all the data rectangles that intersect with Q.
+    <Li> Consider the example Q = [(20,64), (36,38)]. 
+    Simply eyeballing the data tells you that Q intersects R3 and R4.
+    But how do we automate searching in the tree?
+    <li> The idea is to perform search similar to insertion.
+    Start by checking whether Q intersects any data rectangle
+    stored off of the root node. Then, compute which quadrants
+    Q intersects with. Then recursively search each of these quadrants.
+    <!--
+    <li> See <a href="a2pseudo.html">Pseudocode</a>.
+    -->
+    </ul>
+  <li> Finally, let's consider how a filter tree can be used for the
+  two-set intersection problem. Recall that the input to this problem
+  consists of two sets of rectangles. First, insert one set of data
+  rectangles into a filter tree. Then, use each rectangle in the
+  second set to query against the tree.
+  <pre><font color="#000000">
+  <b>Algorithm</b>: findIntersections (rectSet1, rectSet2)
+  <b>Input</b>: two sets of rectangles containing n and m rectangles respectively
+       <font color="#DC143C">// First, place data rectangles in rectSet1 into tree.</font>
+  1.   makeFilterTree (rectSet1)
+       <font color="#DC143C">// Now scan rectangles in second set and query against tree.</font>
+  2    <b>for</b> i = 0 <b>to</b> m
+         <font color="#DC143C">// Get list of intersections from tree.</font>
+  3.     LinkedList intersectionSet = filterTreeSearch (rectSet2[i]);
+  4.     <b>if</b> intersectionSet <b>not empty</b>
+  5.       numIntersections += intersectionSet.size();
+  6.       Place intersections in intersectionSet into list of intersections;
+  7.     <b>endif</b>
+  8.   <b>endfor</b>
+  9.   <b>return</b> all intersections;
+  </font></pre>
+  </ul>
+
+Implementation:
+  <ul>
+  <li> Name your algorithm <tt><font color="#000000">FilterTreeRectIntersection.java</font></tt>.
+  <li> Your algorithm will need to implement the
+  <a href="RectangleSetIntersectionAlgorithm.html"> 
+ RectangleSetIntersectionAlgorithm</a> interface that itself extends the
+  <a href="Algorithm.html">
+  Algorithm</a> interface 
+  you've already used. Also see the other javadocs referenced above.
+  <li> Use instances of the class 
+  <a href="FilterTreeNode.html">FilterTreeNode</a>
+  for each tree node. Note that the constructor of this class
+  computes the vertical and horizontal bisectors.
+  <li> Note: you can identify the region size by scanning all data
+  rectangles and recording the min and max of the X and Y values.
+  <li> Suggested steps for implementation: 
+    <ul>
+    <Li> Start with some pen-and-paper work: write down detailed pseudocode for
+    insertion and search in the filter tree, and for the two-set
+    intersection that uses the tree.
+    <b> Submit this pseudocode in Part I</b>.
+    <li> You will find it useful to write code that decides whether
+    two given rectangles intersect.
+    Likewise, you will find it useful to write code to identify
+    whether a given rectangle intersects with a node's bisectors.
+    <li> First get your code working for just two rectangles in each
+    rectangle set.
+    </ul>
+  <li> Implement a print-tree method. Use the 5-rectangle example 
+  above to show that your code is working correctly. Submit hardcopy output
+  from your print-tree with this example, and another example.
+  <li> Compare the performance of the filter tree approach with the
+  naive method. Do not spew out debugging into or print-tree output
+  for this part. 
+  <li> You may use <a href="a2.props2">this properties file</a> with
+  the test environment.
+  <li> Try filter trees of different depths, and adjust the 
+  region and rectangle sizes to see when the filter tree performs well.
+  <li> Submit your pseudocode as part of your Part II submission as well.
+  </ul>
+
+</ol>
+
+
+<P><B><FONT COLOR="#000080">Submission: </FONT></B></P>
+
+<UL>
+<li> The written part of Part I is due (in my mailbox) one week before Part II. However, you would be
+well-advised to get started with Part II early.
+<li> For this assignment and others, you will need to follow
+the usual <a href="../../submit/submit.html">submission instructions</a>
+carefully.
+<li> <b>Part I</b>:
+For Part I, 
+the name of subdirectory should be: your username
+followed by <font color="#000000"><tt>_a2_1</tt></font>. 
+<br>
+Example: if your username is <font color="#000000"><tt>beavis</tt></font>
+your subdirectory will be called 
+<font color="#000000"><tt>beavis_a2_1</tt></font>.
+<br> Thus, the jar file will be called 
+<font color="#000000"><tt>beavis_a2_1.jar</tt></font>.
+
+<li> <b>Part II</b>:
+For Part II, 
+the name of subdirectory should be: your username
+followed by <font color="#000000"><tt>_a2</tt></font>. 
+<br>
+Example: if your username is <font color="#000000"><tt>beavis</tt></font>
+your subdirectory will be called 
+<font color="#000000"><tt>beavis_a2</tt></font>.
+<br> Thus, the jar file will be called 
+<font color="#000000"><tt>beavis_a2.jar</tt></font>.
+</ul>
+
+<P>
+<HR WIDTH="100%"></P>
+
+</BODY>
+</HTML>

@@ -1,0 +1,183 @@
+<HTML>
+<HEAD>
+   <TITLE> Exercise 3 </TITLE>
+</HEAD>
+<BODY BGCOLOR="#FFFFFF" LINK="#186727">
+<FONT COLOR="#0000B0">
+
+<P>
+<HR></P>
+
+<H1><FONT COLOR="#191970">Exercise 3</FONT></H1>
+
+<P>
+<HR WIDTH="100%"></P>
+<FONT COLOR="#0000B0">
+
+
+<ol>
+
+<li> <b>Reading:</b> 
+Search the net for material on Java performance. What is garbage
+collection and how does it impact performance? What are other ways
+to tune a Java application?
+
+<p><li> Pen-and-paper exercises:
+  <ol type="A">
+  <li> Write down at least three ways of improving the performance
+    of a Java application that you learned from the reading above.
+  <li> Consider Binary Search in a sorted array:
+    <ul>
+    <li> Inserted items are kept in sorted order in an array.
+    <li> To search for an element, a straightforward scan would
+    require <i>O(n)</i> time.
+    <li> In BinarySearch, you compare the search-item with the middle
+    element. If the search-item is smaller, then you know that it
+    cannot lie to the right of the middle-element (because those
+    elements are larger since the array is sorted). So, now you
+    restrict your search to half the array.
+    <li> Intuitively, because BinarySearch cuts the "search-work" in half
+     each time, it takes <i>O(log(n))</i>. Read through a more careful
+     analysis (books, websites) to see why.
+    <li> It is possible to write a simple recursive program that
+    finds successive sub-ranges to search from.
+    </ul>
+  Suppose instead, we consider "ternary search" in which 
+  the array is divided into three thirds of roughly equal size.
+  Provide pseudocode for ternary search and analyze the 
+  running time of the algorithm in terms of <i>n</i> (the array size).
+  Show where the analysis would differ from that of binary search.
+
+  <li> Analyze the following code and provide a "Big-Oh" estimate of
+  its running time in terms of <i>n</i>. Explain your analysis.
+  <font color="#000000"><pre>
+    for (i=1; i <= n; i++) {
+      k = 1;
+      for (j=1; j <= i; j++) {
+        k = 2*k;
+      }
+      j = k*k;
+      while (j > 1) {
+        j = j / 2;
+      }
+    }
+  </pre></font>
+
+  <li><b>Duplicate removal, part 3</b>. In this problem we'll return
+  to the problem of duplicate removal.
+    <ul>
+    <li> Suppose we are given a <i>sorted</i> array of integers with possible
+    duplicates. Show how duplicates can be removed from the array
+    in <i>O(n)</i> time using no additional space except for some
+    additional variables. Provide both detailed pseudocode and an 
+    example showing why your pseudocode works.
+    The goal, recall, is to rearrange the elements
+    in the array so that the unique elements are up front.
+    You will then have 
+    an index indicating the position of last element that's not 
+    a duplicate.  Thus, if given
+  the sorted array
+  <tt><font color="#000000">[2,3,3,3,4,4]</font></tt>, 
+  what is returned is
+  <tt><font color="#000000">[2,3,4,0,0,0]</font></tt>, 
+  along with the index
+  <tt><font color="#000000">2</font></tt>.
+    <li> If the array is not sorted, is it possible to remove
+    duplicates in <i>O(n)</i>? Explain why or why not.
+    </ul>
+
+  <li><b>Transaction problem, part 1</b>. We'll now introduce another
+  problem that will run through several homeworks. Here, we are given
+  an integer array that represents stock prices, one entry per day.
+  Thus, for example, with the array
+     <tt><font color="#000000">[2,1,3,2,4]</font></tt>, 
+  the price on day 1 is $2, the price on day 2 is $1 etc.
+  The broad goal in this problem is to analyze "what-if" scenarios
+  by computing "what might have been possible" with such data. 
+  We'll first consider a <i>single buy-sell</i> transaction where
+  one must buy on a certain day, and sell on another day (that
+  comes after the buy-day, naturally). Consider the following
+  algorithm to find the optimal transaction:
+<font color="#000000"><pre>
+    <b>Algorithm</b>: singleTransaction (prices)
+    // Given an array of prices
+        buyDay = findMinPriceLocation ()
+        sellDay = findMaxPriceLocation ()
+        maxProfit = prices[sellDay] - prices[buyDay]
+        <b>return</b> (buyDay, sellDay, maxProfit)
+
+    <b>Method</b>: findMinPriceLocation 
+        min = &infin;
+        location = -1
+        <b>for</b> i=1 <b>to</b> n
+            <b>if</b> prices[i] &lt; min
+                min = prices[i]
+                location = i
+            <b>endif</b>
+        <b>endfor</b>
+        <b>return</b> location
+
+    <b>Method</b>: findMaxPriceLocation 
+    // ... similar to findMinPriceLocation, except with max
+    </pre></font>
+
+  <ol type="i">
+  <li> Regardless of whether it works, 
+   analyze the running time of the above algorithm (in order-notation).
+  <li> Show using a counterexample that it actually does not work.
+  <li> Can this problem be solved in <i>O(n)</i> time? You need to do one
+   of the following: (1) Provide an <i>O(n)</i> algorithm in 
+   pseudocode, along with an explanation of how it works;
+   OR (2) explain intuitively why it cannot be done in <i>O(n)</i>
+   time, and provide some algorithm (that takes longer
+   than <i>O(n)</i>) that works, explain why it works.
+  </ol>
+
+  </ol>
+<b>Note:</b> Credit will not be given only for answers - show all your
+work: your reasoning, steps you took to get your answer etc.
+
+<!--
+<p><li> Programming.
+<br> 
+This part of Exercise 3 is a programming exercise with
+binary trees. First, start by looking at the
+<a href="BinaryTree.html">BinaryTree</a> interface.
+     <ol>
+     <li> Implement the level, NLR and LRN print methods. These are
+      methods for which you wrote the pseudocode earlier in Assignment 1.
+     <li> The more interesting challenge here is, given only the
+      output of an NLR and LRN print, can you reconstruct the original
+      tree? This is the <font color="#000000"><tt>buildTree</tt></font>
+      method in the interface. You can assume that the keys are 
+      unique (no duplicates).
+     </ol>
+   In the written part, submit pseudocode for the 
+     <font color="#000000"><tt>buildTree</tt></font> method. You are
+    <i>strongly</i> advised to first work out an example, then
+    write pseudocode, and only then start implementing.
+   To test your implementation, use 
+     <a href="bst.props">this properties file</a> in the
+   test environment. Call your program 
+   <font color="#000000"><tt>BinaryTreeImpl</tt></font>. 
+-->
+
+</ol>
+
+<P><B><FONT COLOR="#000080">Submission: </FONT></B></P>
+
+<UL>
+<li> Submit the written part in the usual way.
+For this assignment and others, you will need to follow
+the usual <a href="../../submit/submit.html">submission instructions</a>
+carefully.
+</ul>
+
+
+
+
+<P>
+<HR WIDTH="100%"></P>
+
+</BODY>
+</HTML>

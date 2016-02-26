@@ -1,0 +1,308 @@
+<HTML>
+<HEAD>
+   <TITLE> Assignment 4 </TITLE>
+</HEAD>
+<BODY BGCOLOR="#FFFFFF" LINK="#186727">
+<FONT COLOR="#0000B0">
+
+<P>
+<HR></P>
+
+<H1><FONT COLOR="#191970">Assignment 4</FONT></H1>
+
+<P>
+<HR WIDTH="100%"></P>
+<FONT COLOR="#0000B0">
+
+<p>
+In this problem, you will solve a security problem: placing cameras
+in an indoor space that needs to be surveilled. The idea is to 
+use as few cameras as possible to <i>cover</i> a given indoor space.
+The indoor space could be a little complicated, with interior walls,
+and might require both judicious placement of each camera and its
+orientation (where it points).
+To simplify the
+problem, we will use a simple 2D floorplan and give you all the
+support code needed for placing the cameras and seeing the
+results. <em>All you have to do is provide coordinates and
+orientation for each camera </em>. You can use as many cameras
+as you need, but your solution will be judged on <i>how few</i>
+cameras you use to cover the given space.
+
+<P> Let's start with an example indoor floorplan:
+  <center>
+  <p><img src="fig1.png" height="400" width="600">
+  </center>
+Here, there are four exterior walls and one interior wall, all shown
+as grey cells. The interior space is all white and consists of 
+square white tiles.
+
+<p>
+We'll now place a single camera at the bottom left corner of the
+interior space:
+  <center>
+  <p><img src="fig2.png" height="300" width="480">
+  </center>
+What we see are:
+  <ul>
+  <li> A camera placed at location <i>(1,1)</i> with orientation = 45 degrees.
+  <li> The orientation (where the center of the camera is pointing) is shown by the blue line.
+  <li> The camera has a range: in this case, 30 degrees on either side
+   of its orientation. The green lines show the range.
+  <li> The red tiles are the ones that are covered by this camera, and
+   the white tiles are <i>uncovered</i> tiles. The rule is:
+   <i>all four corners of a tile must be entirely within the
+    range of a camera, with no walls blocking its sight, for
+    the tile to be considered covered by that camera</i>.
+  </ul>
+
+<p> Let's add a camera at location <i>(maxX-1, maxY-1)</i>, which is
+the top right corner of the interior area.
+  <center>
+  <p><img src="fig3.png" height="300" width="480">
+  </center>
+What we see is that we get more coverage, but the whole area is still
+not covered.
+
+<p>The goal of the problem should now be clear: <i>place as few
+cameras as possible, along with their orientations, 
+to cover all the white tiles</i>. What
+you are given is: 
+  <ul>
+  <li> The locations of the interior walls. (The exterior walls are
+   the same four walls.)
+  <li> Each camera's range.
+  </ul>
+You can use as many cameras as you need, but the goal of course is to use
+as few as possible. A tile may be covered by multiple cameras.
+
+<p> To get started:
+<ul>
+<li> Download <b><a href="camera.jar">camera.jar</a></b> and unpack.
+<li> To compile and execute: compile and execute the file 
+      <font color="#000000"><tt>CameraPlacementTest.java</tt></font>,
+     which has 
+      <font color="#000000"><tt>main()</tt></font>.
+<li> You will need to write your code in a file <i>which has your
+username embedded in the name</i>. For example, 
+      <font color="#000000"><tt>BeavisAlgorithm.java</tt></font>.
+<li> There are two sample algorithms provided in 
+      <font color="#000000"><tt>DummyAlgorithm.java</tt></font>
+   and
+      <font color="#000000"><tt>IterativeDummyAlgorithm.java</tt></font>.
+  So, to get started, you can simply copy over the code in 
+      <font color="#000000"><tt>DummyAlgorithm.java</tt></font>
+  to your file as a starting point.
+<li> Next, examine the file
+      <font color="#000000"><tt>CameraPlacementTest.java</tt></font>.
+  <ul>
+  <li> In the 
+      <font color="#000000"><tt>main()</tt></font>.
+      method, you will see a couple of methods, only one of which
+      is not commented out. All of these are examples of
+      ways you can run the support code.
+  <li> If you run 
+      <font color="#000000"><tt>demo1()</tt></font>,
+      you will see three windows (frames). One will have the 
+      problem (the floorplan), one will show coverage but
+      without showing the cameras, and the third will show
+      both coverage and cameras. The commandline also outputs
+      which tiles get covered and what percent is uncovered.
+  <li> In 
+      <font color="#000000"><tt>demo1()</tt></font>,
+      try out 
+      <font color="#000000"><tt>("small", 0)</tt></font>,
+      <font color="#000000"><tt>("small", 1)</tt></font>,
+      and 
+      <font color="#000000"><tt>("small", 2)</tt></font>.
+      The number that's the second argument produces
+      a particular problem instance.
+      You can replace 
+      <font color="#000000"><tt>"small"</tt></font>
+      with 
+      <font color="#000000"><tt>"big"</tt></font>
+      to see a second suite of problems (with problem #0, 1, 2).
+  <Li> Next, in 
+      <font color="#000000"><tt>demo1()</tt></font>,
+    examine, the code
+    <pre><font color="#000000">
+	CameraPlacementAlgorithm alg = new DummyAlgorithm ();
+	CameraPlacementResult result = CameraPlacement.runAlgorithm (alg, problem, false, false);
+	System.out.println (result);
+    </font></pre>
+    This is basically how the test-environment for the camera
+    placement works. You create an instance of an algorithm.
+    Then you run the algorithm with a particular problem.
+    The last two parameters are boolean: whether or not
+    to display, and whether or not to show the cameras in the display.
+  <li> The second demo is probably what you'll use most often
+    in initially testing your algorithm. Let's examine the code:
+    <pre><font color="#000000">
+	int problemNum = 1;
+	CameraPlacementProblem problem = CameraProblemFactory.getProblem ("small", problemNum);
+	CameraPlacementAlgorithm alg = new IterativeDummyAlgorithm ();
+	CameraPlacementResult result = CameraPlacement.runAlgorithm (alg, problem, true, true);
+    </font></pre>
+  The class
+      <font color="#000000"><tt>CameraProblemFactory</tt></font>,
+  is what contains various problem instances. 
+  Here, we are asking the problem factory to give us problem #1 
+  of the "small" type. Then we create an instance of an algorithm
+  and run it, showing both the GUI with the camera locations. Try it.
+  </ul>
+<li> Obviously, the code examples above, you will replace
+      <font color="#000000"><tt>DummyAlgorithm</tt></font>
+   and
+      <font color="#000000"><tt>IterativeDummyAlgorithm</tt></font>
+   with your algorithm.
+</ul>
+
+<p> OK, now that you know how to run your algorithm, let's see
+what's involved in writing an algorithm. We'll examine the two
+default algorithms:
+<ul>
+<li> The goal of any algorithm is to return a <i>list</i> of
+cameras that you create. In this case, it needs to be an
+      <font color="#000000"><tt>ArrayList&lt;Camera&gt;</tt></font>,
+as shown in the code.
+<li> Next, let's examine the first camera created in this "dumb"
+algorithm:
+    <pre><font color="#000000">
+	Camera camera = new Camera( new Pointd(1,1),  45, true );
+	cameraList.add(camera);
+    </font></pre>
+Here, we are creating a camera located at grid point <i>(1,1)</i> with an
+orientation of 45 degrees, and we specify that we want to see
+the camera when cameras are displayed. Note: later, when
+you use lots of cameras, then showing all of them could
+potentially be confusing (with lots of lines on the screen); so,
+you can selectively decide not to show some cameras.
+<li> This "dumb" algorithm merely places four cameras at the four
+corners of the indoor space.
+<li> Your algorithm will, of course, use the wall information to 
+cleverly place cameras <i>algorithmically</i> instead of hard-coding
+particular locations.
+<li> One step towards algorithmic placement is shown in the
+second of the two algorithms, which iteratively places
+cameras along the four walls. Reading through the code
+will help you understand how it works. Notice how the
+cameras use different orientations. Then, display the result
+for small-problems #1 and #2.
+<li> The most important thing to note about the second algorithm is
+how it evaluates the coverage as it proceeds:
+    <pre><font color="#000000">
+    result = CameraPlacement.evaluatePlacement (problem, cameraList);
+    </font></pre>
+This takes in the current camera-list and asks the test environment
+to evaluate the coverage. Examine the file 
+      <font color="#000000"><tt>CameraPlacementResult</tt></font>.
+You can get the number of tiles covered, the number not covered,
+and so on. But most importantly, for each tile you can get this
+info in the 2D array 
+      <font color="#000000"><tt>cover</tt></font>.
+For example, 
+      <font color="#000000"><tt>cover[3][4]</tt></font>
+will be 0 (if not covered), 1 (if covered) and -1 (if the tile is
+in a wall). 
+<li> A tile's coordinates are specified by the tile's lower left corner.
+</ul>
+
+<p> How do you know where the interior walls are going to be? You
+can get this information from the problem instance that's
+given to your 
+      <font color="#000000"><tt>solve()</tt></font>,
+method, where you will write most of your code. You can extract
+from a problem all the relevant data you need for your algorithm
+including: 
+      <font color="#000000"><tt>maxX, maxY</tt></font>,
+the interior walls, the range of each camera.
+<ul>
+<li> Each wall is represented by two sets of coordinates.
+<li> A horizontal wall is represented by the line on the lower
+ side of the wall.
+<li> A vertical wall is represented by the line on the left
+  side of the wall. In the example above, there is only
+  one interior wall, which is vertical in this case.
+  This wall is represented by coordinates <i>(8,1)</i>
+  and <i>(8,7)</i>, which are actually the end points 
+  of the line that's the left edge of the wall.
+  There's no particular reason for this choice: we had
+  to make some choice, and this is what we chose. We could
+  have used the right edge just as easily.
+<li> All wall coordinates use integer locations.
+</ul>
+
+<p> About the cameras:
+<ul>
+<li> A camera's location should use integer coordinates, even
+though the
+      <font color="#000000"><tt>Pointd</tt></font>,
+class uses double's. (We need the double's for doing the 
+intersection calculations.)
+<li> Similarly, the orientation needs to be an integer between 
+<i>0</i> and <i>359</i> inclusive.
+<li> If you place a camera in an improper location (such as:
+not on a wall, outside the floorplan etc), the test code will
+flag an error.
+<li> If your camera's orientation is improper (for example: facing
+into a wall), this is not an error but the camera will be useless
+in providing coverage.
+</ul>
+
+<p> Note: you are welcome to examine all the other code, but
+you really don't need to know much more than is described above.
+
+<p> Other points to note:
+<ul>
+<li> All cameras will have the same range.
+<li> No wall will completely partition the space. That is, it will be
+possible to walk from anywhere to anywhere inside the space.
+<li> There might be isolated walls that don't touch any other walls.
+<li> You cannot place multiple cameras in the same spot.
+<li> Cameras can only be placed on walls (not on the floor).
+
+</ul>
+
+
+<p> The <b>competition</b>:
+<ul>
+<li> We will run each student's algorithm on the problems currently
+included, and on a few additional problems we will create.
+<li> We will examine both coverage and number of cameras, as
+well as the ratio of the number of cameras to covered tiles (this
+ratio needs to be as small as possible).
+<li> Algorithms will be ranked in each of the three categories.
+<li> Some points will be awarded for placing well in the competition.
+</ul>
+
+
+<P><B><FONT COLOR="#000080">Submission: </FONT></B></P>
+
+<UL>
+<li> Name your file as described above (with your name as part of the
+file name).
+<li> IMPORTANT: write all your code in that one file. You can
+of course use multiple methods, and create your own classes, but
+please put all the code in one file. The reason is, we will have
+all student code in one directory: it will be convenient with fewer files.
+<li> You'll need to follow
+the usual <a href="../../submit/submit.html">submission instructions</a>
+carefully.
+<li> 
+The name of subdirectory should be: your username
+followed by <font color="#000000"><tt>_a4</tt></font>. 
+<br>
+Example: if your username is <font color="#000000"><tt>beavis</tt></font>
+your subdirectory will be called 
+<font color="#000000"><tt>beavis_a4</tt></font>.
+<br> Thus, the jar file will be called 
+<font color="#000000"><tt>beavis_a4.jar</tt></font>.
+<li> As usual, if you create your own classes for this assignment,
+you should give them unique names (prefixed by your username).
+</ul>
+
+<P>
+<HR WIDTH="100%"></P>
+
+</BODY>
+</HTML>

@@ -1,0 +1,216 @@
+<HTML>
+<HEAD>
+   <TITLE> Exercise 4 </TITLE>
+</HEAD>
+<BODY BGCOLOR="#FFFFFF" LINK="#186727">
+<FONT COLOR="#0000B0">
+
+<P>
+<HR></P>
+
+<H1><FONT COLOR="#191970">Exercise 4</FONT></H1>
+
+<P>
+<HR WIDTH="100%"></P>
+<FONT COLOR="#0000B0">
+
+
+<ol>
+
+<!--
+<li> <b>Reading:</b> 
+Chapter 25, Chapter 15 (pp. 323-350).
+-->
+
+<p><li> Pen-and-paper exercises:
+  <ol type="A">
+  <li> Given an adjacency-list representation of a directed graph, explain how
+  you would (give high-level pseudocode):
+    <ul>
+    <li> Compute the out-degrees of all vertices.
+    <li> Compute the in-degrees of all vertices.
+    </ul>
+  How much time (in order-notation) does each computation take?
+  <li> For the following directed graph, write down:
+     <ul>
+     <li> The adjacency-matrix.
+     <li> The adjacency-list.
+     <li> Show the results, <i>step by step</i>,
+     of depth-first search starting at vertex 0 
+     (draw the tree edges, visit-order and completion-order). Use the
+     depth-first version that visits all components.
+     <li> Classify the non-tree edges (back, down, cross) by 
+      clearly drawing them on a separate graph.
+     <li> Identify the strong components on the graph.
+     <li> Draw a new graph that replaces each edge below with an
+     <em>undirected</em> edge, and removes redundant edges so that no pair of
+     vertices has more than one edge connecting them. Now, show the 
+     results of applying breadth-first search to this new graph.
+     </ul>
+     Assume that the adjacency-matrix is used for the searches.
+     <p><img src="ex4.gif"><p>
+
+  <!--
+  <li> Submit pseudocode for In-class Exercise 7.11 in Module 7,
+  as discussed in class. Hint: think about how you could use DFS to determine
+  whether <i>j</i> is reachable from <i>i</i>. Then, use repeated
+  calls to DFS to keep track of reachable nodes, and finally
+  identify the connected components.
+  -->
+
+  <li> Describe, in pseudocode, an algorithm to detect whether a
+  given undirected graph is <em>bipartite</em>, assuming the graph is input as
+  an adjacency matrix. Provide an order-notation analysis of
+  the running time. A graph is called <em>bipartite</em> if its vertices 
+  (the set <i>V</i>) can be partitioned into two sets 
+   <i>V<sub>1</sub></i> and <i>V<sub>2</sub></i>
+  such that: (1) no vertex is in both 
+   <i>V<sub>1</sub></i> and <i>V<sub>2</sub></i>;
+  (2) no edge has both its end vertices in
+   <i>V<sub>1</sub></i>;
+  (3) no edge has both its end vertices in
+   <i>V<sub>2</sub></i>. The graph below is an example:
+     <p><img src="bipartite2.png"><p>
+
+  <!--
+  <li> Give an example to show that a vertex <i>v</i> in a directed
+  graph can end up in a
+  depth-first tree containing only <i>v</i> even if <i>v</i> has both
+  incoming and outgoing edges in the graph.
+  -->
+
+  <li> <b>Transaction problem, part 2</b>.
+  Recall the transaction problem from Exercise 3, in which we were
+  given an array of prices. In this variation, we will allow
+  multiple transactions, as many as one likes. The transactions
+  must all have different buy dates, but can share common sell dates.
+  Show how to use the ideas in part 1 (Exercise 3)
+  along with a heap to determine the maximum possible profit,
+  with the output listing the profitable transactions in profit order
+  (most profitable, followed by next most profitable etc).
+  What is the running time of this combined algorithm? Explain your
+  analysis of the running time.
+  </ol>
+<b>Note:</b> Credit will not be given only for answers - show all your
+work: your reasoning, steps you took to get your answer etc.
+
+<p><li>
+Implement depth-first search on undirected graphs using the
+adjacency-list representation and use it to determine the number of
+connected components in an undirected graph.
+You may use code from the module as a starting point.
+  <ul>
+  <li> Name your file <tt><font color="#000000">UndirectedDepthFirstAdjList.java</font></tt>.
+  <li> You will need to implement the <a
+  href="UndirectedGraphSearchAlgorithm.html">UndirectedGraphSearchAlgorithm</a>
+  interface:
+    <ul>
+    <li> Simply implement the <tt><font color="#000000">initialize(),
+    insertUndirectedEdge(), depthFirstVisitOrder(),
+    depthFirstCompletionOrder(), componentLabels()</font></tt> 
+    and <tt><font color="#000000">numConnectedComponents()</font></tt> methods.
+    <li> Provide empty implementations for the other methods.
+    <li> Note: when you insert a new edge into an adjacency list,
+    always add it to the end of the list. Unlike an adjacency-matrix
+    representation, this matters, because the visit-order depends on
+    the list order for each vertex (the order in which neighbors are explored).
+    </ul>
+  <li> The javadoc for this exercise:
+    <br> <a href="UndirectedGraphSearchAlgorithm.html">UndirectedGraphSearchAlgorithm</a>
+   interface
+   <br> <a href="GraphEdge.html">GraphEdge</a> class
+  <li> A class called <tt><font color="#000000">GraphEdge</font></tt> has been provided (in the
+    environment) for your use in the vertex lists. However, you may
+    choose to use some other class of your own making, if you find
+    that convenient.
+  <li> Note: the componentLabels are explained as follows. Since DFS
+  identifies components, we will label these component 0, component 1,
+  ... and so on. Now vertex 5 may happen to lie in component 1 in
+  which case its componentLabel is 1. Similarly, vertex 12 may lie
+  in component 3, in which case its componentLabel is 3. Thus,
+  the array <font color="#000000"><tt>componentLabel</tt></font> specifies for each vertex
+  which component that vertex lies in, i.e.,
+   <font color="#000000"><tt>componentLabel[i]</tt></font> is the component number for vertex 
+   <font color="#000000"><tt>i</tt></font>.
+  <li> You may use <a href="ex4.props">this properties file</a> for
+  testing in the algorithm environment. Note: currently, the
+  environment only tests correctness of algorithms that meet this
+  interface; a performance tester is in development.
+  </ul>
+
+<p><li> Use your depth-first search algorithm for the following
+problem. Suppose we create a random graph on <i>n</i> vertices
+in the following way:
+  <ul>
+  <li> We use a <em>biased coin</em> where the probability
+  of getting "heads" is <i>p</i>, where <i>p</i> may or may not be 0.5.
+  <li> Initially, there are only <i>n</i> vertices and no edges.
+  <li> For each pair of vertices, flip the coin to decide whether
+  or not an edge should exist between those vertices.
+  </ul>
+The resulting graph will have one or more components. Your job is to 
+generate a whole bunch of random graphs (at least a thousand)
+to estimate the average number of components
+for different values of <i>p</i>. That is, for <i>p=0.1</i>, how
+many components do you get on average? Then, for <i>p=0.2</i>, how
+many components do you get on average ... and so on. This will
+give you a plot of number-of-components against <i>p</i>.
+
+<p>Note: 
+  <ul>
+  <li> There is no interface to implement. Write your
+  code for this part in <font color="#000000"><tt>main</tt></font>
+  (and associated methods), and submit a printout.  
+  <li> You are required to use your implementation of DFS
+  (the adjacency-list version) above.
+  <li> How do you flip a biased coin whose probability of heads is <i>p</i>?
+  You can use the following code:
+  <font color="#000000"><pre>
+  public static boolean randomCoinFlip (double p)
+  {
+    if (UniformRandom.uniform() < p)
+      return true;
+    else
+      return false;
+  }
+  </pre></font>
+  You can get <font color="#000000"><tt>UniformRandom</tt></font>
+ from <a href="../../useful/UniformRandom.java">here</a>.
+  Suppose you want to randomly generate edges with an unbiased coin
+  (i.e., <i>p = 0.5</i>.
+  Each time you call <font color="#000000"><tt>randomCoinFlip</tt></font> with
+  <font color="#000000"><tt>p=0.5</tt></font> you'll get true (if the flip is heads) or
+  false (if not).
+  <li> Submit a graph plotting the "number of components"
+  against different values of <i>p</i>. Do this once for
+  a graph with 10 vertices and once for a graph with 20 vertices.
+  </ul>
+
+Think of <i>p</i> as a measure of "edge density". Thus, small values
+of <i>p</i> will result in a graph with few edges and many components.
+whereas large values of <i>p</i> will almost certainly result
+in a connected graph. Thus, the interesting question is: how does
+connectivity depend on <i>p</i>? If you want to go beyond
+the submission requirements, you can try to study (experimentally)
+what happens when <i>p</i> is in the neighborhood of
+<i>log(n) / n</i> for a graph with <i>n</i> vertices.
+You should see an interesting phenomenon (more about that in class).
+
+</ol>
+
+<P><B><FONT COLOR="#000080">Submission: </FONT></B></P>
+
+<UL>
+<li> For this assignment and others, you will need to follow
+the usual <a href="../../submit/submit.html">submission instructions</a>
+carefully.
+<li> As usual, you are expected to implement your own copious testing
+of your algorithms. 
+</ul>
+
+
+<P>
+<HR WIDTH="100%"></P>
+
+</BODY>
+</HTML>

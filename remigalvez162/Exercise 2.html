@@ -1,0 +1,170 @@
+<HTML>
+<HEAD>
+   <TITLE> Exercise 2 </TITLE>
+</HEAD>
+<BODY BGCOLOR="#FFFFFF" LINK="#186727">
+
+<P>
+<HR></P>
+<FONT COLOR="#0000B0">
+
+<H1><FONT COLOR="#191970">Exercise 2 </FONT></H1>
+
+<P>
+<HR WIDTH="100%"></P>
+<FONT COLOR="#0000B0">
+
+
+<ol>
+
+<p><li> Pen-and-paper exercises:
+  <ol type="A">
+  <li> Google "Hungarian sort dance" and see if it helps you better
+    understand the various sort algorithms.
+  <li> Let <i>h(n) = n</i> mod <i>3</i>.
+  Next, let <i>f(n) = n</i> and <i>g(n) = n<sup>h(n)</sup></i>.
+  What is the order relationship between <i>f</i> and <i>g</i>?
+
+  <li> Analyze the following code and provide a "Big-Oh" estimate of
+  its running time in terms of <i>n</i>. Explain your analysis.
+  <pre><font color="#000000">
+    int k = n;
+    while (k > 0) {
+      for (int j=0; j < n*n; j++)
+        sum += data[j];
+      k = k / 8;
+    }
+  </font></pre>
+  <li> Review recursion
+  in <a href="http://www.seas.gwu.edu/~simhaweb/cs133/lectures.html">Module
+  4 of CS-1112</a> (at least up through palindrome checking). 
+  Read again the step-by-step example of quicksort in Module 2 of this
+  course. Then, show how quicksort works on the array (length=6) of characters
+  "D F C E B A", by following the pseudcode, using the bidirectional
+  partitioning algorithm. At the beginning 
+  of <i>each</i> call to
+  <tt>quickSortRecursive()</tt>, show the complete state of the stack,
+  as in the first example from the CS-1112 material, including the
+  values of <tt>L, R</tt> and <tt>p</tt>.
+  <li> Let <i>W(n)</i> be the "work done" (time taken) by MergeSort on an array of
+  size <i>n</i>. Write the recurrence relation for <i>W(n)</i> and
+  work out the solution as was done in class for quicksort.
+  <li> Review binary trees from the textbook or from previous courses.
+  Insert the following elements "A C B G H D E F" into a standard
+  binary search tree and draw the tree at each step.
+  <li> Consider a complete binary tree with <i>n</i> leaves.
+   How many interior nodes (in terms of <i>n</i>) does the tree have?
+   Use the appropriate summation formula as part of your reasoning.
+
+  <!--
+  <li> Consider an unsorted array of integers and the goal of finding
+   the minimal element in the array. Clearly, the the straightforward
+   way is to scan the array comparing each array element with the
+   current minimum, updating the current minimum as we scan.
+   What if we were to use divide-and-conquer in the following way:
+     <font color="#000000"><pre>
+     <b>Algorithm:</b> findMin (A)
+         // A is an array of n integers
+         <b>return</b> findMinRecursive (A, 0, n-1)
+
+     <b>Algorithm:</b> findMinRecursive (A, i, j)
+         m = (i + j) / 2
+         L = findMinRecursive (A, i, m)
+         R = findMinRecursive (A, m+1, j)
+         <b>if</b> L &lt; R
+             <b>return</b> L
+         <b>else</b>
+             <b>return</b> R
+      </pre></font>
+   Does this work? Add the base (bottom-out) cases for the recursion
+   and write out more complete pseudocode. How many comparisons are
+   made for an array of <i>n</i> elements? Show your reasoning.
+   -->
+
+  <li><b>Duplicate removal, part 2</b>. Recall the duplicate
+  removal problem from Exercise 1. Consider a slight variation
+  of the problem in which duplicates are removed from 
+  the original array and leaving the remaining (unique) items
+  in the same array but packed together, with zeroes replacing
+  all elements after the unique elements. Thus, if given
+  the array
+  <tt><font color="#000000">[2,3,2,2,1]</font></tt>, 
+  what is returned is
+  <tt><font color="#000000">[3,1,2,0,0]</font></tt>, 
+  along with the new length 
+  <tt><font color="#000000">3</font></tt>.
+  Show how duplicate removal
+  can be done in time <i>O(n log n)</i> in the same array as
+  the input array. That is, write pseudocode in the style
+  we have been using in class. Explain why your algorithm
+  takes <i>O(n log n)</i> time.
+
+  <li> Who devised quicksort? Read a short bio and
+   write down three things about this person. (We will
+   do the occasional such exercise for you to learn about
+   great computer scientists, most of whom are still alive.)
+  </ol>
+<b>Note:</b> Credit will not be given only for answers - show all your
+work: your reasoning, steps you took to get your answer etc.
+
+<p><li> 
+Implement the non-recursive version of MergeSort.
+Also, implement the small-size cutoff optimization, with InsertionSort
+as the small-size sort. Experiment with various cutoff sizes to 
+see whether this approach makes a difference.
+Your MergeSort will need to implement
+the <a href="SortingAlgorithm.html">SortingAlgorithm</a> interface.
+(and therefore the <a href="Algorithm.html">Algorithm</a> interface)
+so you can use the AlgorithmTest environment.
+Note:
+  <ul>
+  <li> You will also implement a <font color="#000000"><tt>main</tt></font> method with (at least) the following
+tests:
+    <ul>
+    <li> Create tests to make sure the merge works.
+    <li> Test the sort with 10 elements to see if the result is sorted
+    and that no elements were overwritten or "lost" in the sorting.
+    <li> The same with 100 elements. 
+    </ul>
+  <li> Note: name your basic MergeSort (without the optimization)
+  <font color="#000000"><tt>MergeSort</tt></font>, and name the optimized version
+ <font color="#000000"><tt>MergeSortOpt</tt></font>.
+  <li> Use <a href="merge.props">merge.props</a> as the properties
+  file in the test environment.
+  <li> You do not need to implement the sort-index methods, only the
+   sort-in-place methods. You can change the
+  <font color="#000000"><tt>sortingTester.testComparable</tt></font>
+ property to <font color="#000000"><tt>false</tt></font> if
+  you (temporarily) want to avoid testing strings.
+  <li> Recall that <font color="#000000"><tt>String</tt></font>'s 
+implement the <font color="#000000"><tt>Comparable</tt></font>
+  interface and that anything that implements that interface
+  can be compared using the <font color="#000000"><tt>compareTo</tt></font> method.
+  <li> Submit pseudocode for your algorithm.
+  <li> Compare your optimized (non-recursive) MergeSort with your basic
+  (non-recursive) MergeSort in terms of actual performance.
+  <li> Replace InsertionSort with SelectionSort for the small-size
+  sorts. Do you see a significant difference?
+  </ul>
+
+
+</ol>
+
+<P><B><FONT COLOR="#000080">Submission: </FONT></B></P>
+
+<UL>
+<li> For both algorithm comparisons above, submit a plot (hardcopy)
+using either the plot from the test environment or some other plotting
+package (such as Gnuplot).
+<li> For this assignment and others, you will need to follow
+the usual <a href="../../submit/submit.html">submission instructions</a>
+carefully.
+<li> As usual, you are expected to implement your own copious testing
+of your algorithms. 
+</ul>
+
+<P>
+<HR WIDTH="100%"></P>
+
+</BODY>
+</HTML>

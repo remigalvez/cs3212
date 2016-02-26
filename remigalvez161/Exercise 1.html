@@ -1,0 +1,237 @@
+<HTML>
+<HEAD>
+   <TITLE> Exercise 1 </TITLE>
+</HEAD>
+<BODY BGCOLOR="#FFFFFF" LINK="#186727">
+
+<P>
+<HR></P>
+
+<H1><FONT COLOR="#191970">Exercise 1 </FONT></H1>
+
+<P>
+<HR WIDTH="100%"></P>
+<FONT COLOR="#0000B0">
+
+
+<ol>
+
+<p><li> Read through <a
+href="http://www.seas.gwu.edu/~simhaweb/java/lectures/appendix/stepwise.html">an
+example</a> of how to go from a high-level idea to an actual 
+implementation.
+
+<p><li> Pen-and-paper exercises:
+  <ol type="A">
+  <li> Among the following functions, for each distinct pair
+  <i>f<sub>i</sub></i> and <i>f<sub>j</sub></i>, 
+  identify the "order" relationship: 
+  is  <i>f<sub>i</sub> = O(f<sub>j</sub>)</i>, 
+  <i>f<sub>i</sub> = &Omega;(f<sub>j</sub>)</i>, 
+  or <i>f<sub>i</sub> = &Theta;(f<sub>j</sub>)</i>?
+  The functions are:
+   <br><i>f<sub>1</sub>(n) = n</i>,
+   <br><i>f<sub>2</sub>(n) = n log(n)</i>,
+   <br><i>f<sub>3</sub>(n) = n log(n<sup>2</sup>)</i>,
+   <br><i>f<sub>4</sub>(n) = n<sup>2.5</sup></i>,
+   <br><i>f<sub>5</sub>(n) = n sqrt(n)</i>,
+   <br><i>f<sub>6</sub>(n) = n<sup>2</sup>log(n)</i>.
+  <!--
+  <li> Show that the <i>f(n) = e<sup>n</sup></i> is <i>O(3<sup>n</sup>)</i>
+   by finding the <i>c</i> and <i>N</i> to satisfy the definition.
+  -->
+  <li> Find the appropriate "order" relationship between 
+   <i>n log(n)</i> and <i>10n</i> and find the constants
+   <i>c</i> and <i>N</i>.
+  <li> Analyze the following code and provide a "Big-Oh" estimate of
+  its running time. Explain your analysis.
+  <pre><font color="#000000">
+    for (int i=0; i < n; i++) {
+      for (int j=0; j < n*n; j++)
+        sum += data[i] * data[j];
+      for (int j=0; j < 4*n; j++)
+        sum += data[i] + data[j];
+    }
+  </font></pre>
+<p><li> <b>Duplicate removal, part I</b>. 
+In this problem, we are given an array of positive (nonzero)
+integers with possible
+duplicates, such as: 
+  <tt><font color="#000000">[2,3,2,2,1]</font></tt>. The general goal
+is to return a new array with all the duplicates removed, as in:
+  <tt><font color="#000000">[2,1,3]</font></tt>. 
+We'll consider a variation in which we return the original
+array reorganized so that all the unique elements are 
+found from the first element onwards until the last unique element,
+as in: 
+  <tt><font color="#000000">[2,1,3,_,_]</font></tt>. 
+Here, we also compute the new length 
+  <tt><font color="#000000">n=3</font></tt>,
+which is the number of non-duplicate elements.
+The reorganized array need not have 
+the elements in the same order as in the original. Now consider
+the following attempt, written in pseudocode. (Assume array indices
+start at 1, and the array 
+  <tt><font color="#000000">A</font></tt>. 
+is available globally to all the methods):
+<font color="#000000"><pre>
+    <b>Algorithm</b>: removeDuplicates
+        <b>for</b> i=1 <b>to</b> n 
+            <b>if</b> isDuplicate (i)
+                remove (i)
+            <b>endif</b>
+        <b>endfor</b>
+    <b>return</b> n
+
+    <b>Method</b>: isDuplicate (i)
+        <b>for</b> i=1 <b>to</b> n
+            <b>if</b> A[j] = A[i]
+                <b>return</b> true
+            <b>endif</b>
+        <b>endfor</b>
+        <b>return</b> false
+
+    <b>Method</b>: remove (i)
+    // Removes and performs a left-shift.
+        <b>for</b> j=n-1 <b>to</b> i
+            A[j] = A[j+1]
+        <b>endfor</b>
+        n = n -1
+     </pre></font>
+
+  <ul>
+  <li> If the algorithm were to work, how long does it take to run,
+  expressed in order-notation? Explain your answer.
+  <li> There are actually some algorithmic errors (we won't worry
+    about syntax). Can you find them? How would 
+  you fix them? Submit corrected <i>pseudocode</i>, written in the
+  same style. 
+  </ul>
+  </ol>
+<b>Note:</b> Credit will not be given only for answers - show all your
+work: your reasoning, steps you took to get your answer etc.
+
+<p><li> Implement the Insertion Sort method (see the Wikipedia entry)
+and compare it to the SelectionSort technique in
+Module 1. To implement, you will need to follow these steps:
+  <ul>
+  <li> First: (1) create a separate directory for the course called <tt><font color="#000000">cs3212</font></tt>; 
+  (2) create a directory called <tt><font color="#000000">submit</font></tt> off of your home directory.
+  <li> Follow the <a href="../../submit/submit.html">submission instructions</a>
+  to download the algorithm test environment.
+  <li> Create a subdirectory called <tt><font color="#000000">yourusername1</font></tt> (for
+  example, if your username is <tt><font color="#000000">beavis</font></tt>, create subdirectory
+  off of <tt><font color="#000000">cs3212</font></tt> called <tt><font color="#000000">beavis1</font></tt> to indicate exercise 1).
+  You will implement AND execute your insertion sort code in this directory.
+  <li> Next, download the following two text files: <a
+  href="ex1.props">ex1.props</a>
+  and <a href="ex1.props2">ex1.props2</a>.
+  <li> Write your code in files called <tt><font color="#000000">InsertionSort.java</font></tt> and <tt><font color="#000000">SelectionSort.java</font></tt>.
+  <li> Both of these need to implement the <a href="SortingAlgorithm.html">SortingAlgorithm</a>
+  interface. Note that you will also need to implement the
+  <a href="Algorithm.html">Algorithm</a> interface because
+  <tt><font color="#000000">SortingAlgorithm</font></tt> extends <tt><font color="#000000">Algorithm</font></tt>.
+  <li> In implementing the <tt><font color="#000000">Algorithm</font></tt> interface, only provide
+  an empty implementation for <tt><font color="#000000">setPropertyExtractor</font></tt>. 
+  <li> You will only need to write code for the <tt><font color="#000000">sortInPlace
+  (int[])</font></tt> method in the <tt><font color="#000000">SortingAlgorithm</font></tt> interface. 
+   However, you will need to provide at least empty
+  implementations (method definition, but empty body) 
+  for the other methods. We will not test the other methods.
+  <li> Once you have written the code <em>for both algorithms</em>
+  and want to test: get into the
+  <tt><font color="#000000">yourusername1</font></tt> directory and simply type the following (for Unix):
+    <pre><font color="#000000">
+      % java -jar ../algtest.jar ex1.props
+    </font></pre>
+  (You can run something similar with a DOS-prompt).
+  The jar file contains an algorithm test environment which will run
+  your program and perform some tests.
+  <li> If you like you may run a test with the second properties file,
+  <tt><font color="#000000">ex1.props2</font></tt>. For this purpose you will have to be at a
+  machine that can display a Java GUI (so, you can't run it on <tt><font color="#000000">hobbes</font></tt>).
+  </ul>
+
+<p><li> Write code that takes as input an array of integers and
+rearranges the array to have the following property:
+  <ul>
+  <li> Suppose the first element in the original array has the value <i>x</i>.
+  <li> In the new array, suppose that <i>x</i> is in position
+  <i>i</i>, that is <tt><font color="#000000">data[i] = x</font></tt>.
+  Then, <tt><font color="#000000">data[j] <= x</font></tt> for all <tt><font color="#000000">j < i</font></tt> and
+  <tt><font color="#000000">data[j] > x</font></tt> for all <tt><font color="#000000">j > i</font></tt>.
+  Thus, informally, all the values to the "left" of <i>x</i>
+  are less than (or equal to) <i>x</i> and all values to the right
+  are larger than <i>x</i>.
+  <li> Here's an example. Suppose the array has the elements in this
+   initial order: 4,3,9,2,7,6,5. After one possible (there are many)
+   partition, we get: 3,2,4,5,9,7,6. That is, the leftmost element, 4,
+   is positioned in the resulting array so that all elements less than
+   4 (that is, 2, 3) are to its left (in no particular order), and all
+   elements larger than 4 are to its right (again, in no particular order).
+  </ul>
+Write your code in a file called <tt><font color="#000000">MyPartition.java</font></tt>:
+  <ul>
+  <li> Make your class it implement the <a
+href="PartitionAlgorithm.html">PartitionAlgorithm</a> interface.
+  <li> You will only need to write code for the
+  <tt><font color="#000000">leftIncreasingPartition</font></tt> method. Provide an empty
+  implementation for the other - we will not test it.
+  Note: your partitioning code will be in this method.
+  <li> Observe that you are given a sub-range within the array
+  which you will re-arrange. Do NOT touch elements outside
+  the subrange.
+  <li> Use the <a href="ex1.props3">ex1.props3</a> properties file for
+    this problem.
+  </ul>
+
+</ol>
+
+
+<P><B><FONT COLOR="#000080">Note: </FONT></B></P>
+ <ul>
+ <li> What is an empty implementation of a method? For a void-returning method,
+  it means you write out the 
+  method definition (with parameters) and curly braces, 
+  but don't add any code in between
+  the braces. For a method that needs to return something, you can
+  return some default value. The purpose is just to let the result compile.
+ <li> Unless otherwise specified we will assume that all sorting
+ algorithms in this course will sort in increasing order (smallest element first).
+ <li> For each of your algorithms, write a <tt><font color="#000000">main</font></tt>
+ method in which you perform some testing independent of the
+ environment we provide you. You will be graded on the testing
+ you perform.
+ <li> The algorithm testing environment only helps with
+ <em>testing</em> - it does NOT help with <em>debugging</em>, 
+ which you are expected to do on your own. In this regard,
+ the test-environment may indicate that your code has failed
+ a test, but will not provide additional detail (this is what
+ we mean by "helps with testing, but not debugging").
+ <li> For this assignment and others, we expect you to write
+ clean, documented code following the guidelines mentioned on the
+ homepage.
+ </ul>
+
+<P><B><FONT COLOR="#000080">Submission: </FONT></B></P>
+
+<UL>
+<li> Do NOT submit hardcopy of your code. Only submit the
+pen-and-paper part in my mailbox, or hand it over to the TA
+during office hours before the deadline.
+Note: unfortunately, there is no drop-off box in the SEH.
+
+<li> For this assignment and others, you will need to follow
+<a href="../../submit/submit.html">submission instructions</a>
+carefully.
+We have created a submission tool that picks up encoded
+jar files from students, decodes, compiles and executes.
+To have this work correctly, it is essential that you 
+follow the instructions correctly.
+</ul>
+
+<P>
+<HR WIDTH="100%"></P>
+
+</BODY>
+</HTML>
